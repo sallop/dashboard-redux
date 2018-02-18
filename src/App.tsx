@@ -5,20 +5,24 @@ import Router from './Router';
 
 class App extends React.Component {
   render() {
+    const links: string[] = [
+      'home',
+      'signin',
+      'signup',
+    ];
     return (
       <div>
         <Router/>
         <p>List Based</p>
         <Nav vertical={true}>
-          <NavItem>
-            <NavLink href="#">Link 1</NavLink>
-          </NavItem>
-          <NavItem>
-            <NavLink href="#">Link 2</NavLink>
-          </NavItem>
-          <NavItem>
-            <NavLink href="#">Link 3</NavLink>
-          </NavItem>
+          {
+            links.map((link, idx) => (
+              <NavItem key={idx}>
+                <NavLink href={link}>{link}</NavLink>
+              </NavItem>
+            ))
+          }
+
         </Nav>
       </div>
     );
