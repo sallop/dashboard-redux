@@ -1,19 +1,25 @@
 import * as React from 'react';
+import { Nav, NavItem, NavLink } from 'reactstrap';
 import './App.css';
-
-const logo = require('./logo.svg');
+import Router from './Router';
 
 class App extends React.Component {
   render() {
     return (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <h1 className="App-title">Welcome to React</h1>
-        </header>
-        <p className="App-intro">
-          To get started, edit <code>src/App.tsx</code> and save to reload.
-        </p>
+      <div>
+        <Router/>
+        <p>List Based</p>
+        <Nav vertical={true}>
+          <NavItem>
+            <NavLink href="#">Link 1</NavLink>
+          </NavItem>
+          <NavItem>
+            <NavLink href="#">Link 2</NavLink>
+          </NavItem>
+          <NavItem>
+            <NavLink href="#">Link 3</NavLink>
+          </NavItem>
+        </Nav>
       </div>
     );
   }
