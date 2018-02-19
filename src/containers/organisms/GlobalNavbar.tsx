@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 // import { Nav, NavItem, NavLink } from 'reactstrap';
 import {
   Nav,
@@ -46,7 +47,7 @@ class GlobalNavbar extends React.Component<Props, State> {
         <Navbar color="faded">
           <NavbarBrand href="public/favicon.ico">reactstrap</NavbarBrand>
           <NavbarToggler onClick={this.toggle} className="mr-2">
-            Toggle
+            <FontAwesomeIcon icon={['fas', 'bars']} />
           </NavbarToggler>
           <Collapse isOpen={this.state.isOpen} navbar={true}>
             <Nav className="ml-auto" navbar={true}>
