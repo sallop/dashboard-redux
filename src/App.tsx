@@ -1,19 +1,16 @@
 import * as React from 'react';
-// import * as GlobalNavbar from './containers/organisms/GlobalNavbar';
 import GlobalNavbar from './containers/organisms/GlobalNavbar';
-// import { Nav, NavItem, NavLink } from 'reactstrap';
 import {
   Nav,
-  // Navbar,
   NavItem,
   NavLink,
-  // NavbarBrand,
-  // NavbarToggler,
-  // Collapse,
 } from 'reactstrap';
 
 import './App.css';
 import Router from './Router';
+import '@fortawesome/fontawesome-free-solid';
+import '@fortawesome/fontawesome-free-brands';
+// import FaSamples from './components/atoms/FaSamples';
 
 class App extends React.Component {
   render() {
@@ -36,6 +33,7 @@ class App extends React.Component {
             ))
           }
         </Nav>
+        {/* <FaSamples/> */}
       </div>
     );
   }
