@@ -1,5 +1,17 @@
 import * as React from 'react';
-import { Nav, NavItem, NavLink } from 'reactstrap';
+// import * as GlobalNavbar from './containers/organisms/GlobalNavbar';
+import GlobalNavbar from './containers/organisms/GlobalNavbar';
+// import { Nav, NavItem, NavLink } from 'reactstrap';
+import {
+  Nav,
+  // Navbar,
+  NavItem,
+  NavLink,
+  // NavbarBrand,
+  // NavbarToggler,
+  // Collapse,
+} from 'reactstrap';
+
 import './App.css';
 import Router from './Router';
 
@@ -12,17 +24,17 @@ class App extends React.Component {
     ];
     return (
       <div>
+        <GlobalNavbar />
         <Router/>
         <p>List Based</p>
         <Nav vertical={true}>
           {
             links.map((link, idx) => (
               <NavItem key={idx}>
-                <NavLink href={link}>{link}</NavLink>
+                <NavLink key={'link' + idx} href={link}>{link}</NavLink>
               </NavItem>
             ))
           }
-
         </Nav>
       </div>
     );

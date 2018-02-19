@@ -26,3 +26,7 @@
   from { transform: rotate(0deg); }
   to { transform: rotate(360deg); }
 }
+
+.nav-link {
+  background-color: #9db6dd;
+}
