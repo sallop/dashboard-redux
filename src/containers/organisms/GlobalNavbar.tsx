@@ -1,6 +1,10 @@
 import * as React from 'react';
+import urls from '../../utils/urls';
+import './GlobalNavbar.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-// import { Nav, NavItem, NavLink } from 'reactstrap';
+// import { Logo } from './logo.svg'; // you get React component
+import logo from './logo.svg';
+// import { default as Logo } from './logo.svg'; // svg url or base64 encoded data url
 import {
   Nav,
   Navbar,
@@ -37,23 +41,21 @@ class GlobalNavbar extends React.Component<Props, State> {
   }
 
   render() {
-    const links: string[] = [
-      'home',
-      'signin',
-      'signup',
-    ];
+    const links = urls;
     return (
-      <div style={{ borderStyle: 'solid'}}>
+      <div className="global-navbar" style={{ borderStyle: 'solid'}}>
         <Navbar color="faded">
-          <NavbarBrand href="public/favicon.ico">reactstrap</NavbarBrand>
-          <NavbarToggler onClick={this.toggle} className="mr-2">
+          <NavbarBrand className="global-navbar__brand" href="/">
+            <img src={logo} alt="logo" height="42" width="42"/>
+          </NavbarBrand>
+          <NavbarToggler className="mr-2" onClick={this.toggle}>
             <FontAwesomeIcon icon={['fas', 'bars']} />
           </NavbarToggler>
           <Collapse isOpen={this.state.isOpen} navbar={true}>
             <Nav className="ml-auto" navbar={true}>
             {
               links.map((link, idx) => (
-                <NavItem key={idx}>
+                <NavItem className="global-navbar__item" key={idx}>
                   <NavLink key={idx} className="nav-link" href={link}>{link}</NavLink>
                 </NavItem>
               ))
