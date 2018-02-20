@@ -1,0 +1,20 @@
+.global-navbar {
+  /*
+  position: static;
+  */
+  color: #000;
+  border: 1px solid #2c4368;
+}
+
+.global-navbar__brand {
+  border: solid;
+  padding: 1px;
+  margin: 1px;
+  width: 24px;
+  height: 24px;
+  background-color: #a9b6cc;
+}
+
+.global-navbar__item {
+  border: solid;
+}
