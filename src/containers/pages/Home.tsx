@@ -1,9 +1,12 @@
 import * as React from 'react';
+import DashboardTemplate from '../templates/DashboardTemplate';
 
 const Home = () => (
-  <div>
-    <h2>Home</h2>
-  </div>
+  <DashboardTemplate>
+    <div>
+      Home Contents
+    </div>
+  </DashboardTemplate>
 );
 
 export default Home;
