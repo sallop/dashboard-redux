@@ -1,13 +1,14 @@
 import * as React from 'react';
+import DashboardTemplate from '../templates/DashboardTemplate';
 import FaSamples from '../../components/atoms/FaSamples';
 
 const Test = () => (
-  <div>
+  <DashboardTemplate>
     <h2>Test</h2>
     <div>
       <FaSamples/>
     </div>
-  </div>
+  </DashboardTemplate>
 );
 
 export default Test;
