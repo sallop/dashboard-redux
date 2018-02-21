@@ -30,3 +30,10 @@
 .nav-link {
   background-color: #9db6dd;
 }
+
+.wrapper {
+  display: flex;
+  align-items: stretch;
+}
+
+
