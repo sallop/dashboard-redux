@@ -1,14 +1,15 @@
 .sidebar {
-  height: 100%;
-  width: 160px;
   /*
   position: fixed;
-  */
   position: absolute;
+  */
+  position: static;
+  height: 100%;
+  width: 100px;
   z-index: 1;
   top: 0;
   left: 0;
-  background-color: #111;
+  background-color: #111000;
   overflow-x: hidden;
   padding-top: 20px;
 }
@@ -16,13 +17,13 @@
 .sidebar__nav {
   padding: 2px 4px 4px 2px;
   text-decoration: none;
-  font-size: 20px;
-  color: #818181;
+  font-size: 18px;
+  color: #818100;
   display: block;
 }
 
 .sidebar__nav-item {
-  font-size: 16px;
+  font-size: 1rem;
   color: black;
 }
 
