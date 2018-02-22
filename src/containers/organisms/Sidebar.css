@@ -9,15 +9,17 @@
   z-index: 1;
   top: 0;
   left: 0;
-  background-color: #111000;
+  background-color: #586272;
   overflow-x: hidden;
-  padding-top: 20px;
+  border: 1px solid black;
+  margin: 0px 0px 0px 0px;
+  padding: 2px 1px 1px 2px;
 }
 
 .sidebar__nav {
   padding: 2px 4px 4px 2px;
   text-decoration: none;
-  font-size: 18px;
+  font-size: 1em;
   color: #818100;
   display: block;
 }
@@ -25,5 +27,18 @@
 .sidebar__nav-item {
   font-size: 1rem;
   color: black;
+  width: 100%;
+  border: 1px solid black;
+  padding: 1px;
+  margin: 0px;
 }
 
+.sidebar__nav-item .nav-link {
+  font-size: 0.5rem;
+  text-align: center;
+  color: #384a68;
+  width: 100%;
+  border: 0px;
+  padding: 0px;
+  margin: 0px;
+}
