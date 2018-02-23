@@ -1,0 +1,5 @@
+export const PUSH_INCREMENT = 'PUSH_INCREMENT';
+export type PUSH_INCREMENT = typeof PUSH_INCREMENT;
+
+export const PUSH_DECREMENT = 'PUSH_DECREMENT';
+export type PUSH_DECREMENT = typeof PUSH_DECREMENT;
