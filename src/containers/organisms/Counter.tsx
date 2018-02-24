@@ -5,16 +5,10 @@ import { StoreState } from '../../types';
 import Counter from '../../components/atoms/Counter';
 
 const mapStateToProps = (state: StoreState) => {
-  console.log(`mapStateToProps=`);
-  console.log(`${JSON.stringify(state)}`);
   return {
     value: state.value
   };
 };
-
-// interface Props {
-//   value: number;
-// }
 
 // const mapDispatchToProps = (dispatch: Dispatch<Action>, ownProps: Props) => {
 const mapDispatchToProps = (dispatch: Dispatch<Action>) => {
@@ -28,7 +22,8 @@ const mapDispatchToProps = (dispatch: Dispatch<Action>) => {
   };
 };
 
+// export default connect<StateProps, DispatchProps>(
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(Counter as any);
+)(Counter);

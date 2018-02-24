@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { pushIncrement, pushDecrement } from '../../actions';
 
 const styles = {
   counter: {
@@ -19,14 +20,18 @@ const styles = {
   }
 };
 
-interface Props {
+export interface StateProps {
   value: number;
-  onIncrement: any; // Function;
-  onDecrement: any; // Function;
 }
 
-interface State {
+export interface DispatchProps {
+  onIncrement: typeof pushIncrement;
+  onDecrement: typeof pushDecrement;
 }
+
+interface Props extends StateProps, DispatchProps {}
+
+interface State {}
 
 class Counter extends React.Component<Props, State> {
   constructor(props: Props, state: State) {
