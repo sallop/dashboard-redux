@@ -1,7 +1,24 @@
 import * as React from 'react';
-// import { connect, Dispatch } from 'react-redux';
-// import { Action, pushIncrement, pushDecrement } from '../../actions';
- 
+
+const styles = {
+  counter: {
+    width: '100px',
+    fontSize: '0.75rem',
+    border: '1px solid black',
+    backgroundColor: '#9db6dd',
+  },
+  counterDisplay: {
+    display: 'inline',
+    fontSize: '2rem',
+    color: '#586272'
+  },
+  button: {
+    display: 'inline-block',
+    color: '#8f9eb7',
+    backgroundColor: '#586272',
+  }
+};
+
 interface Props {
   value: number;
   onIncrement: any; // Function;
@@ -18,15 +35,11 @@ class Counter extends React.Component<Props, State> {
 
   render() {
     const { value, onIncrement, onDecrement } = this.props;
-    console.log(`Counter = ${JSON.stringify(this.props)}`);
-    console.log(`Counter = ${JSON.stringify(this.props.onIncrement)}`);
-    console.log(`Counter = ${JSON.stringify(this.props.onDecrement)}`);
-
     return (
-      <div className="counter">
-        <div>{value}</div>
-        <button onClick={onIncrement}>+</button>
-        <button onClick={onDecrement}>-</button>
+      <div className="counter" style={styles.counter}>
+        <div style={styles.counterDisplay}>{value}</div>
+        <button onClick={onIncrement} style={styles.button}>+</button>
+        <button onClick={onDecrement} style={styles.button}>-</button>
       </div>
     );
   }

@@ -5,21 +5,25 @@ import { StoreState } from '../../types';
 import Counter from '../../components/atoms/Counter';
 
 const mapStateToProps = (state: StoreState) => {
+  console.log(`mapStateToProps=`);
+  console.log(`${JSON.stringify(state)}`);
   return {
     value: state.value
   };
 };
 
-// const mapDispatchToProps = (dispatch: Dispatch<Action>, ownProps: IEditor) => {
+// interface Props {
+//   value: number;
+// }
+
+// const mapDispatchToProps = (dispatch: Dispatch<Action>, ownProps: Props) => {
 const mapDispatchToProps = (dispatch: Dispatch<Action>) => {
   return {
-    onIncrement: (value: number) => {
-      console.log(`value = ${value}`);
-      dispatch(pushIncrement(value));
+    onIncrement: () => {
+      dispatch(pushIncrement());
     },
-    onDecrement: (value: number) => {
-      console.log(`value = ${value}`);
-      dispatch(pushDecrement(value));
+    onDecrement: () => {
+      dispatch(pushDecrement());
     }
   };
 };
