@@ -12,5 +12,6 @@ export type Member = {
 
 export interface StoreState {
   value: number;
+  editor: Member;
   members: Member[];
 }
