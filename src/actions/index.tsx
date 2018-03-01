@@ -28,12 +28,19 @@ export interface SetValueToTable {
 
 export interface ChangeValueInEditor {
   type: c.CHANGE_VALUE_IN_EDITOR;
-  payload: { name: string, value: string };
+  payload: { key: string, value: string };
+  error?: boolean;
+}
+
+export interface SubmitValueFromEditor {
+  type: c.SUBMIT_VALUE_FROM_EDITOR;
+  payload: { edited: Member };
   error?: boolean;
 }
 
 // export type Action = PushIncrement | PushDecrement;
-export type Action = PushIncrement | PushDecrement | SetValueToEditor | SetValueToTable | ChangeValueInEditor;
+export type Action = PushIncrement | PushDecrement |
+  SetValueToEditor | SetValueToTable | ChangeValueInEditor | SubmitValueFromEditor;
 
 // action creators
 export function pushIncrement(): Action {
@@ -66,9 +73,16 @@ export function setValueToTable(edited: Member): Action {
   };
 }
 
-// export function changeValueInEditor(name: any, value: any) : Action {
-//   return {
-//     type: c.CHANGE_VALUE_IN_EDITOR,
-//     payload: { name, value }
-//   }
-// }
+export function submitValueFromEditor(edited: Member): Action {
+  return {
+    type: c.SUBMIT_VALUE_FROM_EDITOR,
+    payload: { edited }
+  };
+}
+
+export function changeValueInEditor(key: string, value: string): Action {
+  return {
+    type: c.CHANGE_VALUE_IN_EDITOR,
+    payload: { key, value }
+  };
+}

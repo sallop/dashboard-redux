@@ -1,7 +1,12 @@
 import { connect, Dispatch } from 'react-redux';
 import Editor from '../../components/molecules/Editor';
 import { StoreState, Member } from '../../types';
-import { Action, setValueToEditor } from '../../actions';
+import {
+  Action,
+  setValueToEditor,
+  submitValueFromEditor,
+  changeValueInEditor
+} from '../../actions';
 
 const mapStateToProps = (state: StoreState) => {
   console.log(`mapStateToProps`);
@@ -17,10 +22,14 @@ const mapDispatchToProps = (dispatch: Dispatch<Action>) => {
       console.log(`${JSON.stringify(member)}`);
       dispatch(setValueToEditor(member));
     },
-    // onChange: (name: any, value: any) => {
-    //   console.log(`onChange`);
-    //   // dispatch(setValueToEditor(member))
-    // }
+    onSubmit: (member: Member) => {
+      dispatch(submitValueFromEditor(member));
+      // dispatch(submitValueFromEditor(member));
+    },
+    onChange: (key: string, value: string) => {
+      console.log(`mapDispatchToProps.onChange = ${value}`);
+      dispatch(changeValueInEditor(key, value));
+    }
   };
 };
 

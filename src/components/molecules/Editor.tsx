@@ -5,6 +5,7 @@ import {
   submitValueFromEditor,
   changeValueInEditor
 } from '../../actions';
+import './Editor.css';
  
 interface Props {
   editor: Member;
@@ -17,67 +18,52 @@ interface State {
   editor: Member;
 }
 
-const styles = {
-  editor: {
-    border: 'solid 1px black',
-  },
-  id: {
-    display: 'inline',
-    border: 'solid 1px black',
-    margin: '0.25rem',
-    backgroundColor: '#a9b6cc',
-  },
-  group: {
-    display: 'inline',
-    border: 'solid 1px black',
-    margin: '0.25rem',
-    backgroundColor: '#a9b6cc',
-  },
-
-  name: {
-    display: 'inline',
-    border: 'solid 1px black',
-    margin: '0.25rem',
-    backgroundColor: '#a9b6cc',
-  }
-};
-
 class Editor extends React.Component<Props, State> {
   state: State = {
     editor: this.props.editor,
   };
 
-  handleSubmit = (event: React.FormEvent<HTMLInputElement>) => {
-    console.log(`target = ${event.target}`);
-    console.log(`timeStamp = ${event.timeStamp}`);
-    console.log(`type = ${event.type}`);
-
-    // console.log(`${JSON.stringify(event)}`);
+  // handleSubmit = (event: React.FormEvent<HTMLInputElement>) => {
+  // handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+  handleSubmit = () => {
+    this.props.onSubmit(this.props.editor);
+    // this.props.onSubmit(this.state.editor); // NOTE: componet's state
   }
+  // https://reactjs.org/docs/forms.html
   handleChange = (event: React.FormEvent<HTMLInputElement>) => {
-    const key = 'name';
-    const value = event.currentTarget.value;
-    console.log(`value = ${value}`);
-    console.log(`type = ${event.type}`);
-    this.props.onChange(key, value);
+    const target = event.currentTarget;
+    const { name, value } = target;
+    this.props.onChange(name, value);
   }
 
   render() {
     let editor = this.props.editor;
     console.log(`Editor = ${JSON.stringify(editor)}`);
     return (
-      <div style={styles.editor} className="editor">
+      <div className="editor">
         <form>
-          <input type="text" value={this.props.editor.name} onChange={e => this.handleChange(e)}/>
+        {
+          Object.keys(editor).map((key) => {
+            return (
+              <div key={key + '-field'} className="form-row">
+                <label key={key + '-label'}>{key}:</label>
+                <input
+                   type="text"
+                   name={key}
+                   value={this.props.editor[key]}
+                   onChange={e => this.handleChange(e)}
+                />
+              </div>
+            );
+          })
+        }
         </form>
+        <button onClick={this.handleSubmit}>
+          OK
+        </button>
       </div>
     );
   }
 }
 
 export default Editor;
-
-// <div>Editor</div>
-// <div style={styles.id}>{editor.id}</div>
-// <div style={styles.group}>{editor.group}</div>
-// <div style={styles.name}>{editor.name}</div>

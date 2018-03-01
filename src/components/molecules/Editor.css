@@ -1,0 +1,38 @@
+.editor {
+  border: solid 1px black;
+  padding: 0.25rem;
+  background-color: #fff;
+}
+
+.form-row {
+  display: flex;
+  justify-content: flex-end;
+  border: solid 1px black;
+  /* margin: 0.25rem; */
+  padding: 0.25rem;
+}
+
+.form-row label {
+  border: solid 1px black;
+  margin: 0.25rem;
+  /* padding: 0.25rem; */
+  padding: 0.1rem;
+  flex: 1;
+}
+
+.form-row input {
+  border: solid 1px black;
+  margin: 0.25rem;
+  /* padding: 0.25rem; */
+  padding: 0.1rem;
+  background-color: #a9b6cc;
+  flex: 2;
+}
+
+/* .editor input[type=submit] { */
+.editor button {
+  color: black;
+  background-color: white;
+  border-radius: 8px;
+  float: right;
+}
