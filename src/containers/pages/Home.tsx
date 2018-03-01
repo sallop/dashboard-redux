@@ -4,14 +4,12 @@ import DashboardTemplate from '../templates/DashboardTemplate';
 // import Counter from '../organisms/Counter';
 import MemberTable from '../organisms/MemberTable';
 import Editor from '../organisms/Editor';
+import './Home.css';
 
 const Home = () => (
   <DashboardTemplate>
-    <div>
       Home Contents
-      {/*
-        <Counter/>
-      */}
+    <div className="home-content">
       <MemberTable/>
       <Editor/>
     </div>

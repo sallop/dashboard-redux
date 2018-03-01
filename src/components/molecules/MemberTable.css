@@ -1,0 +1,43 @@
+.member-table {
+  border: solid 1px black;
+  margin: 0.25rem;
+  padding: 0.25rem;
+}
+
+.member-table .uid {
+  width: 2rem;
+  text-align: center;
+}
+
+.member-table .gid {
+  width: 2rem;
+  text-align: center;
+}
+
+.member-table thead {
+  text-align: center;
+}
+
+.member-table thead > tr {
+  border: solid 1px black;
+}
+
+.member-table thead tr, td {
+  border: solid 1px black;
+  width: 8rem;
+}
+
+.member-table tbody tr {
+  border: solid 2.5px black;
+}
+
+.member-table tbody tr > td {
+  border: solid 1px black;
+  padding: 0.75rem;
+}
+
+.member-table button {
+  background-color: white;
+  float: right;
+  border-radius: 8px;
+}

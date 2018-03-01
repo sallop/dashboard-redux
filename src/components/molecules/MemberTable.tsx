@@ -1,33 +1,8 @@
 import * as React from 'react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Member } from '../../types';
 import { setValueToEditor } from '../../actions';
-
-const styles = {
-  table: {
-    border: 'solid 1px black',
-  },
-  id: {
-    display: 'inline',
-    width: '2rem',
-    height: '1rem',
-    border: 'solid 1px black',
-    margin: '2px',
-  },
-  group: {
-    display: 'inline',
-    width: '2rem',
-    height: '1rem',
-    border: 'solid 1px black',
-    margin: '2px',
-  },
-  name: {
-    display: 'inline',
-    width: '2rem',
-    height: '1rem',
-    border: 'solid 1px black',
-    margin: '2px',
-  }
-};
+import './MemberTable.css';
 
 interface Props {
   members: Member[];
@@ -36,16 +11,42 @@ interface Props {
 
 const MemberTable: React.SFC<Props> = ({ members, onClick }) => {
   return (
-    <div style={styles.table} className="member-table">
-    {
-      members.map((m, idx) => (
-        <div key={idx} onClick={() => onClick(m)}>
-          <div style={styles.id}>{m.id}</div>
-          <div style={styles.group}>{m.group}</div>
-          <div style={styles.name}>{m.name}</div>
-        </div>
-      ))
-    }
+    <div className="member-table">
+      <table>
+        <thead>
+          <tr>
+            <th className="uid">id</th>
+            <th className="gid">班</th>
+            <th>氏名</th>
+            <th>かな</th>
+            <th>洗礼名</th>
+            <th>生年月日</th>
+            <th>郵便番号</th>
+            <th>住所</th>
+            <th>備考</th>
+          </tr>
+        </thead>
+        <tbody>
+        {
+          members.map((m, idx) => (
+            <tr key={idx} onClick={() => onClick(m)}>
+              <td className="uid">{m.id}</td>
+              <td className="gid">{m.group}</td>
+              <td>{m.name}</td>
+              <td>{m.pronounce}</td>
+              <td>{m.spiritualName}</td>
+              <td>{m.birthday}</td>
+              <td>{m.postcode}</td>
+              <td>{m.address}</td>
+              <td>{m.info}</td>
+            </tr>
+          ))
+        }
+        </tbody>
+      </table>
+      <button>
+        <FontAwesomeIcon icon={['fas', 'sync']} />
+      </button>
     </div>
   );
 };
