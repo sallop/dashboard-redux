@@ -95,38 +95,57 @@ export function changeValueInEditor(key: string, value: string): Action {
   };
 }
 
-export function loginRequest(): Action {
+// https://github.com/auth0-blog/redux-auth
+export function loginRequest(creds): Action {
   return {
     type: c.LOGIN_REQUEST,
-    payload: {}
+    payload: {
+      isFetching: true,
+      isAuthenticated: false,
+      creds
+    }
   };
 }
 
-export function loginSuccess(): Action {
+export function loginSuccess(user): Action {
   return {
     type: c.LOGIN_SUCCESS,
-    payload: {}
+    payload: {
+      isFetching: false,
+      isAuthenticated: true,
+      id_token: user.id_token
+    }
   };
 }
 
-export function loginFailure(): Action {
+export function loginFailure(message): Action {
   return {
     type: c.LOGIN_FAILURE,
-    payload: {}
+    payload: {
+      isFetching: false,
+      isAuthenticated: false,
+      message
+    }
   };
 }
 
 export function logoutRequest(): Action {
   return {
     type: c.LOGOUT_REQUEST,
-    payload: {}
+    payload: {
+      isFetching: true,
+      isAuthenticated: true
+    }
   };
 }
 
 export function logoutSuccess(): Action {
   return {
     type: c.LOGOUT_SUCCESS,
-    payload: {}
+    payload: {
+      isFetching: false,
+      isAuthenticated: false
+    }
   };
 }
 
@@ -134,5 +153,22 @@ export function logoutFailure(): Action {
   return {
     type: c.LOGOUT_FAILURE,
     payload: {}
+  };
+}
+
+// Calls the API to get a token and dispatches action along the way
+export loginUser(creds) {
+  let config = {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/x-www-form/urlencoded' },
+    body: `username=${creds.username}&password=${creds.password}`
+  };
+
+  return dispatch => {
+  };
+}
+
+export function logoutUser() {
+  return dispatch => {
   };
 }
