@@ -9,7 +9,6 @@ import {
 } from '../../actions';
 
 const mapStateToProps = (state: StoreState) => {
-  console.log(`mapStateToProps`);
   return {
     editor: state.editor
   };
@@ -19,7 +18,6 @@ const mapStateToProps = (state: StoreState) => {
 const mapDispatchToProps = (dispatch: Dispatch<Action>) => {
   return {
     onClick: (member: Member) => {
-      console.log(`${JSON.stringify(member)}`);
       dispatch(setValueToEditor(member));
     },
     onSubmit: (member: Member) => {
@@ -27,7 +25,6 @@ const mapDispatchToProps = (dispatch: Dispatch<Action>) => {
       // dispatch(submitValueFromEditor(member));
     },
     onChange: (key: string, value: string) => {
-      console.log(`mapDispatchToProps.onChange = ${value}`);
       dispatch(changeValueInEditor(key, value));
     }
   };

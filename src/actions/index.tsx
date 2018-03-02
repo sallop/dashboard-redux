@@ -58,7 +58,6 @@ export function pushDecrement(): Action {
 }
 
 export function setValueToEditor(editor: Member): Action {
-  console.log(`SetValueToEditor ${JSON.stringify(editor)}`);
   return {
     type: c.SET_VALUE_TO_EDITOR,
     payload: { editor }
@@ -66,7 +65,6 @@ export function setValueToEditor(editor: Member): Action {
 }
 
 export function setValueToTable(edited: Member): Action {
-  console.log(`SetValueToTable ${JSON.stringify(edited)}`);
   return {
     type: c.SET_VALUE_TO_TABLE,
     payload: { edited }

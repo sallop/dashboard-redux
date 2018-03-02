@@ -38,7 +38,6 @@ class Editor extends React.Component<Props, State> {
 
   render() {
     let editor = this.props.editor;
-    console.log(`Editor = ${JSON.stringify(editor)}`);
     return (
       <div className="editor">
         <form>
