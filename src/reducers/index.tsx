@@ -16,10 +16,10 @@ function initialState(): StoreState {
 export default function reducer(state: StoreState = initialState(), action: Action): StoreState {
 
   switch (action.type) {
-    case c.PUSH_INCREMENT:
-      return { ...state, value: state.value + 1 };
-    case c.PUSH_DECREMENT:
-      return { ...state, value: state.value - 1 };
+    // case c.PUSH_INCREMENT:
+    //   return { ...state, value: state.value + 1 };
+    // case c.PUSH_DECREMENT:
+    //   return { ...state, value: state.value - 1 };
     case c.SET_VALUE_TO_EDITOR:
       return { ...state, editor: action.payload.editor };
     case c.SET_VALUE_TO_TABLE:

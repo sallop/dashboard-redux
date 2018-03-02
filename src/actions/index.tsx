@@ -1,19 +1,6 @@
 import * as c from '../constants';
 import { Member } from '../types';
 
-// actions
-export interface PushIncrement {
-  type: c.PUSH_INCREMENT;
-  payload: {};
-  error?: boolean;
-}
-
-export interface PushDecrement {
-  type: c.PUSH_DECREMENT;
-  payload: {};
-  error?: boolean;
-}
-
 export interface SetValueToEditor {
   type: c.SET_VALUE_TO_EDITOR;
   payload: { editor: Member };
@@ -38,24 +25,47 @@ export interface SubmitValueFromEditor {
   error?: boolean;
 }
 
-// export type Action = PushIncrement | PushDecrement;
-export type Action = PushIncrement | PushDecrement |
-  SetValueToEditor | SetValueToTable | ChangeValueInEditor | SubmitValueFromEditor;
-
-// action creators
-export function pushIncrement(): Action {
-  return {
-    type: c.PUSH_INCREMENT,
-    payload: {}
-  };
+export interface LoginRequest {
+  type: c.LOGIN_REQUEST;
+  payload: {};
+  error?: boolean;
 }
 
-export function pushDecrement(): Action {
-  return {
-    type: c.PUSH_DECREMENT,
-    payload: {}
-  };
+export interface LoginSuccess {
+  type: c.LOGIN_SUCCESS;
+  payload: {};
+  error?: boolean;
 }
+
+export interface LoginFailure {
+  type: c.LOGIN_FAILURE;
+  payload: {};
+  error?: boolean;
+}
+
+export interface LogoutRequest {
+  type: c.LOGOUT_REQUEST;
+  payload: {};
+  error?: boolean;
+}
+
+export interface LogoutSuccess {
+  type: c.LOGOUT_SUCCESS;
+  payload: {};
+  error?: boolean;
+}
+
+export interface LogoutFailure {
+  type: c.LOGOUT_FAILURE;
+  payload: {};
+  error?: boolean;
+}
+
+type TableAction = SetValueToEditor | SetValueToTable | ChangeValueInEditor | SubmitValueFromEditor;
+type LoginAction = LoginRequest | LoginSuccess | LoginFailure;
+type LogoutAction = LogoutRequest | LogoutSuccess | LogoutFailure;
+
+export type Action = TableAction | LoginAction | LogoutAction;
 
 export function setValueToEditor(editor: Member): Action {
   return {
@@ -82,5 +92,47 @@ export function changeValueInEditor(key: string, value: string): Action {
   return {
     type: c.CHANGE_VALUE_IN_EDITOR,
     payload: { key, value }
+  };
+}
+
+export function loginRequest(): Action {
+  return {
+    type: c.LOGIN_REQUEST,
+    payload: {}
+  };
+}
+
+export function loginSuccess(): Action {
+  return {
+    type: c.LOGIN_SUCCESS,
+    payload: {}
+  };
+}
+
+export function loginFailure(): Action {
+  return {
+    type: c.LOGIN_FAILURE,
+    payload: {}
+  };
+}
+
+export function logoutRequest(): Action {
+  return {
+    type: c.LOGOUT_REQUEST,
+    payload: {}
+  };
+}
+
+export function logoutSuccess(): Action {
+  return {
+    type: c.LOGOUT_SUCCESS,
+    payload: {}
+  };
+}
+
+export function logoutFailure(): Action {
+  return {
+    type: c.LOGOUT_FAILURE,
+    payload: {}
   };
 }
