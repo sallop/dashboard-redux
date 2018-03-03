@@ -1,15 +1,25 @@
 import * as React from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Member } from '../../types';
-import { setValueToEditor } from '../../actions';
+import { setValueToEditor, fetchMembers } from '../../actions';
 import './MemberTable.css';
 
 interface Props {
   members: Member[];
   onClick: typeof setValueToEditor;
+  onUpdate: typeof fetchMembers;
 }
 
-const MemberTable: React.SFC<Props> = ({ members, onClick }) => {
+const MemberTable: React.SFC<Props> = ({ members, onClick, onUpdate }) => {
+
+  // https://www.typescriptlang.org/docs/handbook/functions.html
+  const handleUpdate = () => {
+    // this parameters
+    // this.props.onUpdate();
+    console.log(`handleUpdate()`);
+    onUpdate();
+  };
+
   return (
     <div className="member-table">
       <table>
@@ -44,7 +54,7 @@ const MemberTable: React.SFC<Props> = ({ members, onClick }) => {
         }
         </tbody>
       </table>
-      <button>
+      <button onClick={() => handleUpdate()}>
         <FontAwesomeIcon icon={['fas', 'sync']} />
       </button>
     </div>

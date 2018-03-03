@@ -38,6 +38,26 @@ export default function reducer(state: StoreState = initialState(), action: Acti
         }
       });
       return { ...state, members: ms };
+    case c.FETCH_MEMBERS:
+      let status = action.payload.status;
+      let fetched = action.payload.members;
+      console.log(`status = ${status}`);
+      console.log(`fetched = ${JSON.stringify(fetched)}`);
+      switch (status) {
+        case c.STATUS_REQUEST:
+          // start progressive bar
+        break;
+        case c.STATUS_ERROR:
+          // stop progressive bar with Error process
+        break;
+        case c.STATUS_SUCCESS:
+          // stop progressive bar with success
+          return { ...state, members: fetched };
+        default:
+          // huh?
+          break;
+      }
+      return { ...state, members };
     default:
       return { ...state };
   }

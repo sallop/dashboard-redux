@@ -5,11 +5,15 @@ import registerServiceWorker from './registerServiceWorker';
 import 'bootstrap/dist/css/bootstrap.css';
 import './index.css';
 import { Provider } from 'react-redux';
-import { createStore } from 'redux';
+import { createStore, applyMiddleware } from 'redux';
+import thunkMiddleware from 'redux-thunk';
 import rootReducer from './reducers';
 import { StoreState } from './types';
 
-const store = createStore<StoreState>(rootReducer);
+const store = createStore<StoreState>(
+  rootReducer,
+  applyMiddleware(thunkMiddleware)
+);
 
 ReactDOM.render(
   <Provider store={store}>
@@ -18,8 +22,4 @@ ReactDOM.render(
   document.getElementById('root') as HTMLElement
 );
 
-// ReactDOM.render(
-//   <App />,
-//   document.getElementById('root') as HTMLElement
-// );
 registerServiceWorker();

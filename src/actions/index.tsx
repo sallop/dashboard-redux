@@ -1,5 +1,8 @@
 import * as c from '../constants';
 import { Member } from '../types';
+import { Dispatch } from 'redux';
+import { ThunkAction } from 'redux-thunk';
+// import 'whatwg-fetch';
 
 // actions
 export interface PushIncrement {
@@ -38,9 +41,20 @@ export interface SubmitValueFromEditor {
   error?: boolean;
 }
 
+export interface FetchMembers {
+  type: c.FETCH_MEMBERS;
+  payload: {
+    // status: string;
+    status: c.STATUS_REQUEST | c.STATUS_ERROR | c.STATUS_SUCCESS;
+    members: Member[];
+  };
+  error?: boolean;
+}
+
 // export type Action = PushIncrement | PushDecrement;
 export type Action = PushIncrement | PushDecrement |
-  SetValueToEditor | SetValueToTable | ChangeValueInEditor | SubmitValueFromEditor;
+  SetValueToEditor | SetValueToTable | ChangeValueInEditor | SubmitValueFromEditor |
+  FetchMembers;
 
 // action creators
 export function pushIncrement(): Action {
@@ -82,5 +96,55 @@ export function changeValueInEditor(key: string, value: string): Action {
   return {
     type: c.CHANGE_VALUE_IN_EDITOR,
     payload: { key, value }
+  };
+}
+
+// https://github.com/gaearon/redux-thunk/issues/103
+// export function fetchMembers(): ThunkAction<Promise<string>, Action, null> {
+export function fetchMembers(): ThunkAction<Promise<Member[]>, Action, null> {
+
+  return function(dispatch: Dispatch<Action>): any {
+    dispatch({
+      type: c.FETCH_MEMBERS,
+      payload: {
+        status: c.STATUS_REQUEST,
+        members: []
+      }
+    });
+
+    // https://gist.github.com/msmfsd/fca50ab095b795eb39739e8c4357a808
+    // return fetch(`http://localhost:3000/mockData.json`, {
+    //   method: 'GET'
+    // })
+    // return fetch(`mockData.json`)
+    return fetch(`http://localhost:3000/mockData.json`)
+      .then( response => {
+        let data = response.json();
+        // console.log(`response = ${JSON.stringify(data)}`); can't print here
+        if (!response.ok) {
+          // NOTE: https://www.tjvantoll.com/2015/09/13/fetch-and-errors/
+          console.log(`!response.ok`);
+          throw Error( response.statusText );
+        }
+        return data; 
+      },     error => {
+        dispatch({
+          type: c.FETCH_MEMBERS,
+          payload: {
+            status: c.STATUS_ERROR,
+            members: []
+          }
+        });
+      })
+      .then( members => {
+        console.log(`${JSON.stringify(members)}`);
+        dispatch({
+          type: c.FETCH_MEMBERS,
+          payload: {
+            status: c.STATUS_SUCCESS,
+            members
+          }
+        });
+      });
   };
 }
