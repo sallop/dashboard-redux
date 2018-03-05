@@ -101,9 +101,13 @@ export function changeValueInEditor(key: string, value: string): Action {
 
 // https://github.com/gaearon/redux-thunk/issues/103
 // export function fetchMembers(): ThunkAction<Promise<string>, Action, null> {
-export function fetchMembers(): ThunkAction<Promise<Member[]>, Action, null> {
+// export function fetchMembers(): ThunkAction<Promise<Member[]>, Action, null> {
+export function fetchMembers(): ThunkAction<Promise<void>, Action, null> {
 
-  return function(dispatch: Dispatch<Action>): any {
+  // return async function(dispatch: Dispatch<Action>): any {
+  // return async function(dispatch: Dispatch<Action>): Promise<Member[]> {
+  return async function(dispatch: Dispatch<Action>): Promise<void> {
+    // start progress bar
     dispatch({
       type: c.FETCH_MEMBERS,
       payload: {
@@ -112,39 +116,72 @@ export function fetchMembers(): ThunkAction<Promise<Member[]>, Action, null> {
       }
     });
 
+    // https://medium.com/@kkomaz/react-to-async-await-553c43f243e2
     // https://gist.github.com/msmfsd/fca50ab095b795eb39739e8c4357a808
-    // return fetch(`http://localhost:3000/mockData.json`, {
-    //   method: 'GET'
-    // })
-    // return fetch(`mockData.json`)
-    return fetch(`http://localhost:3000/mockData.json`)
-      .then( response => {
-        let data = response.json();
-        // console.log(`response = ${JSON.stringify(data)}`); can't print here
-        if (!response.ok) {
-          // NOTE: https://www.tjvantoll.com/2015/09/13/fetch-and-errors/
-          console.log(`!response.ok`);
-          throw Error( response.statusText );
+    // wrap in try to listen for Promise rejection - equivalent of '.catch()'
+    try {
+      // wait for the fetch to finish then dispatch the result
+      const response = await fetch(`http://localhost:3000/mockData.json`);
+
+      if (!response.ok) {
+        // NOTE: https://www.tjvantoll.com/2015/09/13/fetch-and-errors/
+        console.log(`!response.ok`);
+        throw Error( response.statusText );
+      }
+
+      const members = await response.json();
+      console.log(`members = ${members}`);
+
+      dispatch({
+        type: c.FETCH_MEMBERS,
+        payload: {
+          status: c.STATUS_SUCCESS,
+          members
         }
-        return data; 
-      },     error => {
-        dispatch({
-          type: c.FETCH_MEMBERS,
-          payload: {
-            status: c.STATUS_ERROR,
-            members: []
-          }
-        });
-      })
-      .then( members => {
-        console.log(`${JSON.stringify(members)}`);
-        dispatch({
-          type: c.FETCH_MEMBERS,
-          payload: {
-            status: c.STATUS_SUCCESS,
-            members
-          }
-        });
       });
+    } catch (e) {
+      dispatch({
+        type: c.FETCH_MEMBERS,
+        payload: {
+          status: c.STATUS_ERROR,
+          members: []
+        }
+      });
+    }
   };
 }
+
+// https://gist.github.com/msmfsd/fca50ab095b795eb39739e8c4357a808
+// return fetch(`http://localhost:3000/mockData.json`, {
+//   method: 'GET'
+// })
+// return fetch(`mockData.json`)
+// return fetch(`http://localhost:3000/mockData.json`)
+//   .then( response => {
+//     let data = response.json();
+//     // console.log(`response = ${JSON.stringify(data)}`); can't print here
+//     if (!response.ok) {
+//       // NOTE: https://www.tjvantoll.com/2015/09/13/fetch-and-errors/
+//       console.log(`!response.ok`);
+//       throw Error( response.statusText );
+//     }
+//     return data;
+//   },     error => {
+//     dispatch({
+//       type: c.FETCH_MEMBERS,
+//       payload: {
+//         status: c.STATUS_ERROR,
+//         members: []
+//       }
+//     });
+//   })
+//   .then( members => {
+//     console.log(`${JSON.stringify(members)}`);
+//     dispatch({
+//       type: c.FETCH_MEMBERS,
+//       payload: {
+//         status: c.STATUS_SUCCESS,
+//         members
+//       }
+//     });
+//   });
