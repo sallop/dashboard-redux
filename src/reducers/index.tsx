@@ -2,12 +2,25 @@ import { Action } from '../actions';
 import { StoreState, Member } from '../types';
 import * as c from '../constants';
 // import mockData from '../utils/mockData'; Error: ts try to load module
-var members = require('../utils/mockData');
+// var members = require('../utils/mockData');
 
 function initialState(): StoreState {
+  const editor: Member = {
+    id: '',
+    group: '',
+    name: '',
+    pronounce: '',
+    spiritualName: '',
+    birthday: '',
+    postcode: '',
+    address: '',
+    info: ''
+  };
+
+  const members: Member[] = [];
   return {
     value: 0,
-    editor: members[0],
+    editor,
     members
   };
 }
@@ -60,7 +73,7 @@ export default function reducer(state: StoreState = initialState(), action: Acti
           // huh?
           break;
         }
-      return { ...state, members };
+      return { ...state, members: fetched };
     default:
       return { ...state };
   }
