@@ -125,12 +125,10 @@ export function fetchMembers(): ThunkAction<Promise<void>, Action, null> {
 
       if (!response.ok) {
         // NOTE: https://www.tjvantoll.com/2015/09/13/fetch-and-errors/
-        console.log(`!response.ok`);
         throw Error( response.statusText );
       }
 
       const members = await response.json();
-      console.log(`members = ${members}`);
 
       dispatch({
         type: c.FETCH_MEMBERS,

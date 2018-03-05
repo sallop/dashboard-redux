@@ -16,7 +16,6 @@ const MemberTable: React.SFC<Props> = ({ members, onClick, onUpdate }) => {
   const handleUpdate = () => {
     // this parameters
     // this.props.onUpdate();
-    console.log(`handleUpdate()`);
     onUpdate();
   };
 

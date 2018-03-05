@@ -14,7 +14,6 @@ const mapDispatchToProps = (dispatch: Dispatch<Action>) => {
       dispatch(setValueToEditor(member));
     },
     onUpdate: () => {
-      console.log(`onUpdate()`);
       dispatch(fetchMembers());
     }
   };
