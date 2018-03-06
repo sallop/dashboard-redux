@@ -1,6 +1,9 @@
 import { connect, Dispatch } from 'react-redux';
 import Editor from '../../components/molecules/Editor';
-import { StoreState, Member } from '../../types';
+// import { TableState, Member } from '../../types';
+import { Member } from '../../types';
+import { GlobalState } from '../../reducers';
+
 import {
   Action,
   setValueToEditor,
@@ -8,9 +11,10 @@ import {
   changeValueInEditor
 } from '../../actions';
 
-const mapStateToProps = (state: StoreState) => {
+// const mapStateToProps = (state: TableState) => {
+const mapStateToProps = (state: GlobalState) => {
   return {
-    editor: state.editor
+    editor: state.table.editor
   };
 };
 

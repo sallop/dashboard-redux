@@ -10,8 +10,13 @@ export type Member = {
   info: string
 };
 
-export interface StoreState {
-  value: number;
+// export interface StoreState {
+export interface TableState {
+  // value: number;
   editor: Member;
   members: Member[];
+}
+
+export interface CounterState {
+  value: number;
 }

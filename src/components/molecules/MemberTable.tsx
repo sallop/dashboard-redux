@@ -37,6 +37,7 @@ const MemberTable: React.SFC<Props> = ({ members, onClick, onUpdate }) => {
         </thead>
         <tbody>
         {
+          members &&
           members.map((m, idx) => (
             <tr key={idx} onClick={() => onClick(m)}>
               <td className="uid">{m.id}</td>
