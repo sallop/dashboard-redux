@@ -4,19 +4,6 @@ import { Dispatch } from 'redux';
 import { ThunkAction } from 'redux-thunk';
 // import 'whatwg-fetch';
 
-// actions
-export interface PushIncrement {
-  type: c.PUSH_INCREMENT;
-  payload: {};
-  error?: boolean;
-}
-
-export interface PushDecrement {
-  type: c.PUSH_DECREMENT;
-  payload: {};
-  error?: boolean;
-}
-
 export interface SetValueToEditor {
   type: c.SET_VALUE_TO_EDITOR;
   payload: { editor: Member };
@@ -51,25 +38,48 @@ export interface FetchMembers {
   error?: boolean;
 }
 
-// export type Action = PushIncrement | PushDecrement;
-export type Action = PushIncrement | PushDecrement |
-  SetValueToEditor | SetValueToTable | ChangeValueInEditor | SubmitValueFromEditor |
-  FetchMembers;
-
-// action creators
-export function pushIncrement(): Action {
-  return {
-    type: c.PUSH_INCREMENT,
-    payload: {}
-  };
+export interface LoginRequest {
+  type: c.LOGIN_REQUEST;
+  payload: {};
+  error?: boolean;
 }
 
-export function pushDecrement(): Action {
-  return {
-    type: c.PUSH_DECREMENT,
-    payload: {}
-  };
+export interface LoginSuccess {
+  type: c.LOGIN_SUCCESS;
+  payload: {};
+  error?: boolean;
 }
+
+export interface LoginFailure {
+  type: c.LOGIN_FAILURE;
+  payload: {};
+  error?: boolean;
+}
+
+export interface LogoutRequest {
+  type: c.LOGOUT_REQUEST;
+  payload: {};
+  error?: boolean;
+}
+
+export interface LogoutSuccess {
+  type: c.LOGOUT_SUCCESS;
+  payload: {};
+  error?: boolean;
+}
+
+export interface LogoutFailure {
+  type: c.LOGOUT_FAILURE;
+  payload: {};
+  error?: boolean;
+}
+
+type CounterAction = PushIncrement | PushDecrement;
+type TableAction = SetValueToEditor | SetValueToTable | ChangeValueInEditor | SubmitValueFromEditor;
+type LoginAction = LoginRequest | LoginSuccess | LoginFailure;
+type LogoutAction = LogoutRequest | LogoutSuccess | LogoutFailure;
+
+export type Action = CounterAction | TableAction | LoginAction | LogoutAction;
 
 export function setValueToEditor(editor: Member): Action {
   return {
@@ -100,12 +110,7 @@ export function changeValueInEditor(key: string, value: string): Action {
 }
 
 // https://github.com/gaearon/redux-thunk/issues/103
-// export function fetchMembers(): ThunkAction<Promise<string>, Action, null> {
-// export function fetchMembers(): ThunkAction<Promise<Member[]>, Action, null> {
 export function fetchMembers(): ThunkAction<Promise<void>, Action, null> {
-
-  // return async function(dispatch: Dispatch<Action>): any {
-  // return async function(dispatch: Dispatch<Action>): Promise<Member[]> {
   return async function(dispatch: Dispatch<Action>): Promise<void> {
     // start progress bar
     dispatch({
@@ -146,40 +151,83 @@ export function fetchMembers(): ThunkAction<Promise<void>, Action, null> {
         }
       });
     }
-  };
+  }
 }
 
-// https://gist.github.com/msmfsd/fca50ab095b795eb39739e8c4357a808
-// return fetch(`http://localhost:3000/mockData.json`, {
-//   method: 'GET'
-// })
-// return fetch(`mockData.json`)
-// return fetch(`http://localhost:3000/mockData.json`)
-//   .then( response => {
-//     let data = response.json();
-//     // console.log(`response = ${JSON.stringify(data)}`); can't print here
-//     if (!response.ok) {
-//       // NOTE: https://www.tjvantoll.com/2015/09/13/fetch-and-errors/
-//       console.log(`!response.ok`);
-//       throw Error( response.statusText );
+// https://github.com/auth0-blog/redux-auth
+// export function loginRequest(creds): Action {
+//   return {
+//     type: c.LOGIN_REQUEST,
+//     payload: {
+//       isFetching: true,
+//       isAuthenticated: false,
+//       creds
 //     }
-//     return data;
-//   },     error => {
-//     dispatch({
-//       type: c.FETCH_MEMBERS,
-//       payload: {
-//         status: c.STATUS_ERROR,
-//         members: []
-//       }
-//     });
-//   })
-//   .then( members => {
-//     console.log(`${JSON.stringify(members)}`);
-//     dispatch({
-//       type: c.FETCH_MEMBERS,
-//       payload: {
-//         status: c.STATUS_SUCCESS,
-//         members
-//       }
-//     });
-//   });
+//   };
+// }
+// 
+// export function loginSuccess(user): Action {
+//   return {
+//     type: c.LOGIN_SUCCESS,
+//     payload: {
+//       isFetching: false,
+//       isAuthenticated: true,
+//       id_token: user.id_token
+//     }
+//   };
+// }
+// 
+// export function loginFailure(message): Action {
+//   return {
+//     type: c.LOGIN_FAILURE,
+//     payload: {
+//       isFetching: false,
+//       isAuthenticated: false,
+//       message
+//     }
+//   };
+// }
+// 
+// export function logoutRequest(): Action {
+//   return {
+//     type: c.LOGOUT_REQUEST,
+//     payload: {
+//       isFetching: true,
+//       isAuthenticated: true
+//     }
+//   };
+// }
+// 
+// export function logoutSuccess(): Action {
+//   return {
+//     type: c.LOGOUT_SUCCESS,
+//     payload: {
+//       isFetching: false,
+//       isAuthenticated: false
+//     }
+//   };
+// }
+// 
+// export function logoutFailure(): Action {
+//   return {
+//     type: c.LOGOUT_FAILURE,
+//     payload: {}
+//   };
+// }
+// 
+// // Calls the API to get a token and dispatches action along the way
+// export loginUser(creds) {
+//   let config = {
+//     method: 'POST',
+//     headers: { 'Content-Type': 'application/x-www-form/urlencoded' },
+//     body: `username=${creds.username}&password=${creds.password}`
+//   };
+// 
+//   return dispatch => {
+//   };
+// }
+// 
+// export function logoutUser() {
+//   return dispatch => {
+//   };
+// }
