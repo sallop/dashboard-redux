@@ -4,6 +4,18 @@ import { Dispatch } from 'redux';
 import { ThunkAction } from 'redux-thunk';
 // import 'whatwg-fetch';
 
+export interface PushIncrement {
+  type: c.PUSH_INCREMENT;
+  payload: {};
+  error?: boolean;
+}
+
+export interface PushDecrement {
+  type: c.PUSH_DECREMENT;
+  payload: {};
+  error?: boolean;
+}
+
 export interface SetValueToEditor {
   type: c.SET_VALUE_TO_EDITOR;
   payload: { editor: Member };
@@ -75,11 +87,25 @@ export interface LogoutFailure {
 }
 
 type CounterAction = PushIncrement | PushDecrement;
-type TableAction = SetValueToEditor | SetValueToTable | ChangeValueInEditor | SubmitValueFromEditor;
+type TableAction = SetValueToEditor | SetValueToTable | ChangeValueInEditor | SubmitValueFromEditor | FetchMembers;
 type LoginAction = LoginRequest | LoginSuccess | LoginFailure;
 type LogoutAction = LogoutRequest | LogoutSuccess | LogoutFailure;
 
 export type Action = CounterAction | TableAction | LoginAction | LogoutAction;
+
+export function pushIncrement(): Action {
+  return {
+    type: c.PUSH_INCREMENT,
+    payload: {}
+  };
+}
+
+export function pushDecrement(): Action {
+  return {
+    type: c.PUSH_DECREMENT,
+    payload: {}
+  };
+}
 
 export function setValueToEditor(editor: Member): Action {
   return {
@@ -151,7 +177,7 @@ export function fetchMembers(): ThunkAction<Promise<void>, Action, null> {
         }
       });
     }
-  }
+  };
 }
 
 // https://github.com/auth0-blog/redux-auth
