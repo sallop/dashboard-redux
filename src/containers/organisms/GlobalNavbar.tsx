@@ -15,7 +15,16 @@ import {
   Collapse,
 } from 'reactstrap';
 
+import { History } from 'history';
+
 interface Props {
+  history: History;
+  idToken?: string;
+  // profile: Profile;
+  // actions: {
+  //   loginRequest: typeof loginRequest,
+  //   handleLogout: typeof handleLogout,
+  // };
 }
 
 interface State {
@@ -23,9 +32,11 @@ interface State {
 }
 
 class GlobalNavbar extends React.Component<Props, State> {
-  constructor(props: Props) {
+
+  constructor(props: Props, state: State) {
     super(props);
 
+    this.login = this.login.bind(this);
     this.toggle = this.toggle.bind(this);
     this.state = {
       isOpen: false
