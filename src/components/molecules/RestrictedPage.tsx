@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { loginRequest } from '../../actions';
 
 interface Props {
   children?: React.ReactNode[];
@@ -14,7 +15,7 @@ interface DispatchProps {
 interface State {
 }
 
-class RestrictedPage extends React.Component<> {
+class RestrictedPage extends React.Component<Props & DispatchProps, State> {
 
   constructor(props: Props, state: State) {
     super(props);

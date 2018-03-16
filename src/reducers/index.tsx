@@ -5,9 +5,10 @@ import { combineReducers } from 'redux';
 // import { Member } from '../types';
 // import * as c from '../constants';
 
-import { CounterState, TableState } from '../types';
+import { CounterState, TableState, AuthState } from '../types';
 import * as counter from './counter';
 import * as table from './table';
+import * as auth from './auth';
 
 // https://redux.js.org/recipes/structuring-reducers/immutable-update-patterns
 // export default function reducer(state: StoreState = initialState(), action: Action): StoreState {}
@@ -15,9 +16,11 @@ import * as table from './table';
 export interface GlobalState {
   counter: CounterState;
   table: TableState;
+  auth: AuthState;
 }
 
 export default combineReducers<GlobalState>({
   counter: counter.reducer,
   table: table.reducer,
+  auth: auth.reducer,
 });

@@ -10,6 +10,15 @@ export type Member = {
   info: string
 };
 
+export type Credential {
+  username: string;
+  password: string;
+};
+
+type User {
+  id_token: string;
+};
+
 // export interface StoreState {
 export interface TableState {
   // value: number;
@@ -19,4 +28,12 @@ export interface TableState {
 
 export interface CounterState {
   value: number;
+}
+
+// src/reducers/auth.tsx
+export interface AuthState {
+  isLoggingIn: boolean;
+  idToken?: string;
+  // profile?: auth0.Auth0UserProfile; maybe occured circular dependency
+  error?: string;
 }

@@ -1,5 +1,6 @@
 import * as c from '../constants';
-import { Member } from '../types';
+// import { Member } from '../types';
+import { Member, Credential } from '../types';
 import { Dispatch } from 'redux';
 import { ThunkAction } from 'redux-thunk';
 // import 'whatwg-fetch';
@@ -180,80 +181,121 @@ export function fetchMembers(): ThunkAction<Promise<void>, Action, null> {
   };
 }
 
+export interface LoginRequest {
+  type: c.LOGIN_REQUEST;
+  payload: {};
+  error?: boolean;
+}
+
+export interface LoginSuccess {
+  type: c.LOGIN_SUCCESS;
+  payload: {};
+  error?: boolean;
+}
+
+export interface LoginFailure {
+  type: c.LOGIN_FAILURE;
+  payload: {};
+  error?: boolean;
+}
+
+export interface LogoutRequest {
+  type: c.LOGOUT_REQUEST;
+  payload: {};
+  error?: boolean;
+}
+
+export interface LogoutSuccess {
+  type: c.LOGOUT_SUCCESS;
+  payload: {};
+  error?: boolean;
+}
+
+export interface LogoutFailure {
+  type: c.LOGOUT_FAILURE;
+  payload: {};
+  error?: boolean;
+}
+
 // https://github.com/auth0-blog/redux-auth
-// export function loginRequest(creds): Action {
-//   return {
-//     type: c.LOGIN_REQUEST,
-//     payload: {
-//       isFetching: true,
-//       isAuthenticated: false,
-//       creds
-//     }
-//   };
-// }
-// 
-// export function loginSuccess(user): Action {
-//   return {
-//     type: c.LOGIN_SUCCESS,
-//     payload: {
-//       isFetching: false,
-//       isAuthenticated: true,
-//       id_token: user.id_token
-//     }
-//   };
-// }
-// 
-// export function loginFailure(message): Action {
-//   return {
-//     type: c.LOGIN_FAILURE,
-//     payload: {
-//       isFetching: false,
-//       isAuthenticated: false,
-//       message
-//     }
-//   };
-// }
-// 
-// export function logoutRequest(): Action {
-//   return {
-//     type: c.LOGOUT_REQUEST,
-//     payload: {
-//       isFetching: true,
-//       isAuthenticated: true
-//     }
-//   };
-// }
-// 
-// export function logoutSuccess(): Action {
-//   return {
-//     type: c.LOGOUT_SUCCESS,
-//     payload: {
-//       isFetching: false,
-//       isAuthenticated: false
-//     }
-//   };
-// }
-// 
-// export function logoutFailure(): Action {
-//   return {
-//     type: c.LOGOUT_FAILURE,
-//     payload: {}
-//   };
-// }
-// 
-// // Calls the API to get a token and dispatches action along the way
-// export loginUser(creds) {
-//   let config = {
-//     method: 'POST',
-//     headers: { 'Content-Type': 'application/x-www-form/urlencoded' },
-//     body: `username=${creds.username}&password=${creds.password}`
-//   };
-// 
-//   return dispatch => {
-//   };
-// }
-// 
-// export function logoutUser() {
-//   return dispatch => {
-//   };
-// }
+// https://github.com/auth0-blog/redux-auth/blob/master/components/Login.js
+// const username = this.refs.username
+// const password = this.refs.password
+// const creds = { username: username.value.trim(), password: password.value.trim() }
+
+export function loginRequest(creds: Credential): Action {
+  return {
+    type: c.LOGIN_REQUEST,
+    payload: {
+      isFetching: true,
+      isAuthenticated: false,
+      creds
+    }
+  };
+}
+
+export function loginSuccess(user): Action {
+  return {
+    type: c.LOGIN_SUCCESS,
+    payload: {
+      isFetching: false,
+      isAuthenticated: true,
+      id_token: user.id_token
+    }
+  };
+}
+
+export function loginFailure(message): Action {
+  return {
+    type: c.LOGIN_FAILURE,
+    payload: {
+      isFetching: false,
+      isAuthenticated: false,
+      message
+    }
+  };
+}
+
+export function logoutRequest(): Action {
+  return {
+    type: c.LOGOUT_REQUEST,
+    payload: {
+      isFetching: true,
+      isAuthenticated: true
+    }
+  };
+}
+
+export function logoutSuccess(): Action {
+  return {
+    type: c.LOGOUT_SUCCESS,
+    payload: {
+      isFetching: false,
+      isAuthenticated: false
+    }
+  };
+}
+
+export function logoutFailure(): Action {
+  return {
+    type: c.LOGOUT_FAILURE,
+    payload: {}
+  };
+}
+
+// Calls the API to get a token and dispatches action along the way
+export function loginUser(creds) {
+  let config = {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/x-www-form/urlencoded' },
+    body: `username=${creds.username}&password=${creds.password}`
+  };
+
+  return dispatch => {
+  };
+}
+
+export function logoutUser() {
+  return dispatch => {
+  };
+}
