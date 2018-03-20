@@ -1,21 +1,27 @@
 import * as React from 'react';
 import { loginRequest } from '../../actions';
 
-interface Props {
+export interface RestrictedPageProps {
   children?: React.ReactNode[];
+}
+
+export interface StateProps {
   idToken?: string;
 }
 
-interface DispatchProps {
+export interface DispatchProps {
   actions: {
     loginRequest: typeof loginRequest;
   }
 }
 
+interface Props extends RestrictedPageProps, StateProps, DispatchProps;
+
 interface State {
+  // idToken?: string;
 }
 
-class RestrictedPage extends React.Component<Props & DispatchProps, State> {
+class RestrictedPage extends React.Component<Props, State> {
 
   constructor(props: Props, state: State) {
     super(props);
@@ -36,3 +42,5 @@ class RestrictedPage extends React.Component<Props & DispatchProps, State> {
     return idToken ? children : <FullScreenLoader delay={0}/>;
   }
 }
+
+export default RestrictedPage;
