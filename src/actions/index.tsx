@@ -1,6 +1,6 @@
 import * as c from '../constants';
 // import { Member } from '../types';
-import { Member, Credential } from '../types';
+import { Member, Credential, User } from '../types';
 import { Dispatch } from 'redux';
 import { ThunkAction } from 'redux-thunk';
 // import 'whatwg-fetch';
@@ -234,24 +234,26 @@ export function loginRequest(creds: Credential): Action {
   };
 }
 
-export function loginSuccess(user): Action {
+// https://github.com/auth0-blog/redux-auth
+// https://github.com/auth0-blog/nodejs-jwt-authentication-sample
+export function loginSuccess(user: User): Action {
   return {
     type: c.LOGIN_SUCCESS,
     payload: {
       isFetching: false,
       isAuthenticated: true,
-      id_token: user.id_token
+      id_token: user.id_token,
     }
   };
 }
 
-export function loginFailure(message): Action {
+export function loginFailure(message: string): Action {
   return {
     type: c.LOGIN_FAILURE,
     payload: {
       isFetching: false,
       isAuthenticated: false,
-      message
+      message,
     }
   };
 }
@@ -261,7 +263,7 @@ export function logoutRequest(): Action {
     type: c.LOGOUT_REQUEST,
     payload: {
       isFetching: true,
-      isAuthenticated: true
+      isAuthenticated: true,
     }
   };
 }
@@ -271,7 +273,7 @@ export function logoutSuccess(): Action {
     type: c.LOGOUT_SUCCESS,
     payload: {
       isFetching: false,
-      isAuthenticated: false
+      isAuthenticated: false,
     }
   };
 }
@@ -279,23 +281,61 @@ export function logoutSuccess(): Action {
 export function logoutFailure(): Action {
   return {
     type: c.LOGOUT_FAILURE,
-    payload: {}
+    payload: {},
   };
 }
 
+// https://github.com/auth0-blog/redux-auth/blob/master/actions.js
 // Calls the API to get a token and dispatches action along the way
-export function loginUser(creds) {
+export function loginUser(creds: Credential) {
   let config = {
     method: 'POST',
     headers: { 'Content-Type': 'application/x-www-form/urlencoded' },
     body: `username=${creds.username}&password=${creds.password}`
   };
 
-  return dispatch => {
+  //return dispatch => {
+  return async function(dispatch: Dispatch<Action>): Promise<void> {
+    // we dispatch requestLogin to kickoff the call to the API
+    dispatch(requestLogin(creds));
+    // return fetch('http://localhost:3001/sessions/create', config)
+    try {
+      const response = await fetch('http://localhost:3000/credential.json', config);
+      if (!response.ok) {
+        throw Error( response.statusText );
+      }
+      const user: User = await response.json();
+      localStorage.setItem('id_token', user.id_token);
+      dispatch(receiveLogin(user));
+    } catch (e) {
+      console.log("Error: ", err);
+      dispatch(loginError(user.message));
+      // return Promise.reject(user);
+    }
   };
 }
 
+export function requestLogout() {
+  return {
+    type: c.LOGIN_REQUEST,
+    isFetching: true,
+    isAuthenticated: true,
+  };
+}
+
+export function receiveLogout() {
+  return {
+    type: c.LOGOUT_SUCCESS,
+    isFetching: false,
+    isAuthenticated: false
+  };
+}
+
+// https://github.com/auth0-blog/redux-auth/blob/master/actions.js
 export function logoutUser() {
   return dispatch => {
+    dispatch(requestLogout());
+    localStorage.removeItem('id_token');
+    dispatch(receiveLogout());
   };
 }
