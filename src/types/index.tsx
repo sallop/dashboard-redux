@@ -15,7 +15,7 @@ export type Credential {
   password: string;
 };
 
-type User {
+export type User {
   id_token: string;
 };
 
