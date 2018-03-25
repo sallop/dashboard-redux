@@ -1,3 +1,5 @@
+import * as auth0 from 'auth0-js';
+
 export type Member = {
   id: string,
   group: string,
@@ -34,6 +36,6 @@ export interface CounterState {
 export interface AuthState {
   isLoggingIn: boolean;
   idToken?: string;
-  // profile?: auth0.Auth0UserProfile; maybe occured circular dependency
+  profile?: auth0.Auth0UserProfile;// maybe occured circular dependency
   error?: string;
 }

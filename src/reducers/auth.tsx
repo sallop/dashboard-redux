@@ -3,17 +3,36 @@ import { AuthState } from '../types';
 // import { AuthState, User, Credential } from '../types';
 import * as c from '../constants';
 
-// export interface AuthState {
-//   isLoggingIn: boolean;
-//   idToken?: string;
-//   profile?: auth0.Auth0UserProfile;
-//   error?: string;
+// @types/auth0-js/index.tsx
+// export interface Auth0UserProfile {
+//   name: string;
+//   nickname: string;
+//   picture: string;
+//   user_id: string;
+//   username?: string;
+//   given_name?: string;
+//   family_name?: string;
+//   email?: string;
+//   email_verified?: boolean;
+//   clientID: string;
+//   gender?: string;
+//   locale?: string;
+//   identities: Auth0Identity[];
+//   created_at: string;
+//   updated_at: string;
+//   sub: string;
+//   user_metadata?: any;
+//   app_metadata?: any;
 // }
 
 export const initialState: AuthState = {
   isLoggingIn: false,
+// idToken?: string;
+// profile?: auth0.Auth0UserProfile;
+// error?: string;
 };
 
+// https://github.com/jch254/starter-pack/blob/typescript/src/auth/reducer.ts
 export function reducer(
   state: AuthState = initialState(),
   action: Action
@@ -24,20 +43,30 @@ export function reducer(
     return { ...state }
     break;
   case c.LOGIN_SUCCESS:
-    return { ...state }
+    return {
+      ...state,
+      isLoggingIn: false,
+      idToken: action.idToken,
+      profile: action.profile,
+    };
     break;
   case c.LOGIN_FAILURE:
-    return { ...state }
+    return {
+      ...state,
+      isLoggingIn: false,
+      idToken: undefined,
+      profile: undefined,
+    };
     break;
   case c.LOGOUT_REQUEST:
-    return { ...state }
+    return initialState;
     break;
-  case c.LOGOUT_SUCCESS:
-    return { ...state }
-    break;
-  case c.LOGOUT_FAILURE:
-    return { ...state }
-    break;
+  // case c.LOGOUT_SUCCESS:
+  //   return { ...state }
+  //   break;
+  // case c.LOGOUT_FAILURE:
+  //   return { ...state }
+  //   break;
   default:
     break;
   }
