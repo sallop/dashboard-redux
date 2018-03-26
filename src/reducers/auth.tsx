@@ -1,6 +1,7 @@
 import { Action } from '../action';
 import { AuthState } from '../types';
 // import { AuthState, User, Credential } from '../types';
+import { getStoredAuthState } from '../utils/functions';
 import * as c from '../constants';
 
 // @types/auth0-js/index.tsx
@@ -34,7 +35,11 @@ export const initialState: AuthState = {
 
 // https://github.com/jch254/starter-pack/blob/typescript/src/auth/reducer.ts
 export function reducer(
-  state: AuthState = initialState(),
+  // state: AuthState = initialState(),
+  state: AuthState = {
+    ...initialState,
+    ...getStoredAuthState()
+  },
   action: Action
 ): AuthState {
 
@@ -68,6 +73,7 @@ export function reducer(
   //   return { ...state }
   //   break;
   default:
+    return { ...state }
     break;
   }
 }
