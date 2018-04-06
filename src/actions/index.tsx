@@ -4,6 +4,7 @@ import { Member, Credential, User } from '../types';
 import { Dispatch } from 'redux';
 import { ThunkAction } from 'redux-thunk';
 // import 'whatwg-fetch';
+import * as auth0 from 'auth0-js';
 
 export interface PushIncrement {
   type: c.PUSH_INCREMENT;
@@ -222,6 +223,73 @@ export interface LogoutFailure {
 // const username = this.refs.username
 // const password = this.refs.password
 // const creds = { username: username.value.trim(), password: password.value.trim() }
+interface ShowLock {
+  profile: auth0.Auth0UserProfile;
+  idToken: string;
+}
+
+// export function loginUser(cred: Credential): ThunkAction<Promise<void>, Action, null> {
+export function loginUser(): ThunkAction<Promise<void>, Action, null> {
+  return async function(dispatch: Dispatch<Action>): Promise<void> {
+    const creds: Credential = {
+      username: "username",
+      password: "password",
+    };
+    dispatch(loginRequest(creds));
+    // https://github.com/jch254/starter-pack/blob/typescript/src/auth/sagas.ts
+    const lock = new Auth0Lock(
+      process.env.AUTH0_CLIENT_ID as string,
+      process.env.AUTH0_DOMAIN as string,
+      {
+        auth: { redirect: false },
+        languageDictionary: { title: 'Starter Pack' },
+      },
+    );
+
+    console.log(`cid = ${process.env.AUTH0_CLIENT_ID}`);
+    console.log(`domain = ${process.env.AUTH0_DOMAIN}`);
+
+    const showLock = () => new Promise<ShowLock>((resolve, reject) => {
+      lock.on('hide', () => reject('Lock closed'));
+      lock.on('authenticated', (authResult: auth0.Auth0DecodedHash) => {
+        lock.getUserInfo(
+          authResult.accessToken as string,
+          (error: auth0.Auth0Error, profile: auth0.Auth0UserProfile) => {
+            if (!error) {
+              lock.hide();
+              resolve({ profile, idToken: authResult.idToken as string });
+            }
+          },
+        );
+      });
+      lock.on('unrecoverable_error', (error) => {
+        lock.hide();
+        reject(error);
+      });
+
+      lock.show();
+    });
+
+    try {
+      // const { profile, idToken }: ShowLock = yield call(showLock);
+      showLock.then((args: ShowLock) => {
+        const { profile, idToken }: ShowLock = args;
+
+        // dispatch(loginSuccess(user));
+        dispatch(loginSuccess(profile, idToken));
+
+      }, (error: auth0.Auth0Error) => {
+
+        console.log(`error description: ${error.errorDescription}`);
+
+        dispatch(loginFailure(error.errorDescription));
+      });
+    } catch(error) {
+
+      console.log(`error closure: ${JSON.stringify(error)}`);
+    }
+  }
+}
 
 export function loginRequest(creds: Credential): Action {
   return {
@@ -233,19 +301,52 @@ export function loginRequest(creds: Credential): Action {
     }
   };
 }
+// export const loginRequest = (): LoginRequest => ({
+//     type: LOGIN_REQUEST,
+// });
 
 // https://github.com/auth0-blog/redux-auth
 // https://github.com/auth0-blog/nodejs-jwt-authentication-sample
-export function loginSuccess(user: User): Action {
+
+// export interface Auth0UserProfile {
+//   name: string;
+//   nickname: string;
+//   picture: string;
+//   user_id: string;
+//   username?: string;
+//   given_name?: string;
+//   family_name?: string;
+//   email?: string;
+//   email_verified?: boolean;
+//   clientID: string;
+//   gender?: string;
+//   locale?: string;
+//   identities: Auth0Identity[];
+//   created_at: string;
+//   updated_at: string;
+//   sub: string;
+//   user_metadata?: any;
+//   app_metadata?: any;
+// }
+
+// export function loginSuccess(user: User): Action {
+export function loginSuccess(profile: auth0.Auth0UserProfile): Action {
+  console.log(`${JSON.stringify(profile)}`);
   return {
     type: c.LOGIN_SUCCESS,
     payload: {
       isFetching: false,
       isAuthenticated: true,
-      id_token: user.id_token,
+      id_token: profile.user_id,
     }
   };
 }
+
+// export const loginSuccess = (profile: auth0.Auth0UserProfile, idToken: string): LoginSuccess => ({
+//   type: LOGIN_SUCCESS,
+//   profile,
+//   idToken,
+// });
 
 export function loginFailure(message: string): Action {
   return {
@@ -257,6 +358,11 @@ export function loginFailure(message: string): Action {
     }
   };
 }
+
+// export const loginFailure = (error: string): LoginFailure => ({
+//   type: LOGIN_FAILURE,
+//   error,
+// });
 
 export function logoutRequest(): Action {
   return {
@@ -287,33 +393,33 @@ export function logoutFailure(): Action {
 
 // https://github.com/auth0-blog/redux-auth/blob/master/actions.js
 // Calls the API to get a token and dispatches action along the way
-export function loginUser(creds: Credential) {
-  let config = {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/x-www-form/urlencoded' },
-    body: `username=${creds.username}&password=${creds.password}`
-  };
-
-  //return dispatch => {
-  return async function(dispatch: Dispatch<Action>): Promise<void> {
-    // we dispatch requestLogin to kickoff the call to the API
-    dispatch(requestLogin(creds));
-    // return fetch('http://localhost:3001/sessions/create', config)
-    try {
-      const response = await fetch('http://localhost:3000/credential.json', config);
-      if (!response.ok) {
-        throw Error( response.statusText );
-      }
-      const user: User = await response.json();
-      localStorage.setItem('id_token', user.id_token);
-      dispatch(receiveLogin(user));
-    } catch (e) {
-      console.log("Error: ", err);
-      dispatch(loginError(user.message));
-      // return Promise.reject(user);
-    }
-  };
-}
+// export function loginUser(creds: Credential) {
+//   let config = {
+//     method: 'POST',
+//     headers: { 'Content-Type': 'application/x-www-form/urlencoded' },
+//     body: `username=${creds.username}&password=${creds.password}`
+//   };
+//
+//   //return dispatch => {
+//   return async function(dispatch: Dispatch<Action>): Promise<void> {
+//     // we dispatch requestLogin to kickoff the call to the API
+//     dispatch(requestLogin(creds));
+//     // return fetch('http://localhost:3001/sessions/create', config)
+//     try {
+//       const response = await fetch('http://localhost:3000/credential.json', config);
+//       if (!response.ok) {
+//         throw Error( response.statusText );
+//       }
+//       const user: User = await response.json();
+//       localStorage.setItem('id_token', user.id_token);
+//       dispatch(receiveLogin(user));
+//     } catch (e) {
+//       console.log("Error: ", err);
+//       dispatch(loginError(user.message));
+//       // return Promise.reject(user);
+//     }
+//   };
+// }
 
 export function requestLogout() {
   return {
