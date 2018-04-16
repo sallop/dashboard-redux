@@ -7,6 +7,7 @@ import './index.css';
 import { Provider } from 'react-redux';
 import { createStore, applyMiddleware } from 'redux';
 import thunkMiddleware from 'redux-thunk';
+import { History } from 'history';
 // import rootReducer from './reducers';
 // import { StoreState } from './types';
 import rootReducer, { GlobalState } from './reducers';

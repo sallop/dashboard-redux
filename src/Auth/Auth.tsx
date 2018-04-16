@@ -1,4 +1,5 @@
 import history from '../history';
+// import { History } from 'history';
 import * as auth0 from 'auth0-js';
 import { AUTH_CONFIG } from './auth0-variables';
 

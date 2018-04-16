@@ -1,14 +1,16 @@
 import { connect, Dispatch } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
-import { Action, pushIncrement, pushDecrement } from '../../actions';
+// import { Action, pushIncrement, pushDecrement } from '../../actions';
+// import { Action, loginRequest } from '../../actions';
+import { Action, loginUser } from '../../actions';
 import { GlobalState } from '../../reducers';
 import { getIdToken } from '../../Auth/selectors';
 import {
   RestrictedPage,
   RestrictedPageProps,
   StateProps,
-  DispatchProps,
+  // DispatchProps,
 } from '../../components/molecules/RestrictedPage';
 
 // https://github.com/jch254/starter-pack/blob/typescript/src/auth/RestrictedPage.tsx
@@ -21,7 +23,8 @@ const mapStateToProps = (state: GlobalState, ownProps: RestrictedPageProps): Sta
 // const mapDispatchToProps = (dispatch: Dispatch<Action>, ownProps: Props) => {
 const mapDispatchToProps = (dispatch: Dispatch<Action>) => {
   return { //                     Function or Object
-    actions: bindActionCreators({ loginRequest }, dispatch),
+    // actions: bindActionCreators({ loginRequest }, dispatch),
+    actions: bindActionCreators({ loginUser }, dispatch),
   };
 };
 

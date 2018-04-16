@@ -45,12 +45,17 @@ export function reducer(
 
   switch (action.type) {
   case c.LOGIN_REQUEST:
-    return { ...state }
+    return {
+      ...state,
+      isLoggingIn: true,
+      // idToken: "",
+      // profile: "",
+    }
     break;
   case c.LOGIN_SUCCESS:
     return {
       ...state,
-      isLoggingIn: false,
+      isLoggingIn: false, // isFetching: false,  https://github.com/auth0-blog/redux-auth/blob/master/reducers.js
       idToken: action.idToken,
       profile: action.profile,
     };
@@ -61,10 +66,11 @@ export function reducer(
       isLoggingIn: false,
       idToken: undefined,
       profile: undefined,
+      error: action.error
     };
     break;
   case c.LOGOUT_REQUEST:
-    return initialState;
+    return initialState; // isFetching = true, https://github.com/auth0-blog/redux-auth/blob/master/reducers.js
     break;
   // case c.LOGOUT_SUCCESS:
   //   return { ...state }

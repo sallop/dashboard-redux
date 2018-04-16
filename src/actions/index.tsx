@@ -1,10 +1,12 @@
 import * as c from '../constants';
 // import { Member } from '../types';
-import { Member, Credential, User } from '../types';
+// import { Member, Credential, User } from '../types';
+import { Member, Credential } from '../types';
 import { Dispatch } from 'redux';
 import { ThunkAction } from 'redux-thunk';
 // import 'whatwg-fetch';
 import * as auth0 from 'auth0-js';
+import Auth0Lock from 'auth0-lock';
 
 export interface PushIncrement {
   type: c.PUSH_INCREMENT;
@@ -272,11 +274,13 @@ export function loginUser(): ThunkAction<Promise<void>, Action, null> {
 
     try {
       // const { profile, idToken }: ShowLock = yield call(showLock);
-      showLock.then((args: ShowLock) => {
-        const { profile, idToken }: ShowLock = args;
+      showLock().then((args: ShowLock) => {
+        // const { profile, idToken }: ShowLock = args;
+        const { profile }: ShowLock = args;
 
         // dispatch(loginSuccess(user));
-        dispatch(loginSuccess(profile, idToken));
+        // dispatch(loginSuccess(profile, idToken));
+        dispatch(loginSuccess(profile));
 
       }, (error: auth0.Auth0Error) => {
 
@@ -348,7 +352,8 @@ export function loginSuccess(profile: auth0.Auth0UserProfile): Action {
 //   idToken,
 // });
 
-export function loginFailure(message: string): Action {
+// export function loginFailure(message: string): Action {
+export function loginFailure(message: string|undefined): Action {
   return {
     type: c.LOGIN_FAILURE,
     payload: {
@@ -439,7 +444,7 @@ export function receiveLogout() {
 
 // https://github.com/auth0-blog/redux-auth/blob/master/actions.js
 export function logoutUser() {
-  return dispatch => {
+  return (dispatch: Dispatch<Action>) => {
     dispatch(requestLogout());
     localStorage.removeItem('id_token');
     dispatch(receiveLogout());

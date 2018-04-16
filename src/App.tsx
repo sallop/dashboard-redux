@@ -1,5 +1,6 @@
 import * as React from 'react';
 import * as auth0 from 'auth0-js';
+import { loginRequest, logoutRequest } from './actions';
 
 import './App.css';
 import Router from './Router';
@@ -17,7 +18,8 @@ interface StateProps {
 interface DispatchProps {
   actions: {
     loginRequest: typeof loginRequest,
-    logout: typeof logout,
+    // logout: typeof logout,
+    logoutRequest: typeof logoutRequest,
   };
 }
 
@@ -45,7 +47,7 @@ const App: React.StatelessComponent<AppProps & StateProps & DispatchProps> = ({
   actions,
 }) => (
   <div>
-    <Router/>
+    <Router history={history} />
   </div>
 );
 
