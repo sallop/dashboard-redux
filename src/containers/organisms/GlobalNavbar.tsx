@@ -6,10 +6,11 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 // import { Logo } from './logo.svg'; // you get React component
 import logo from './logo.svg';
 // import { default as Logo } from './logo.svg'; // svg url or base64 encoded data url
-import * as auth0 from 'auth0-js';
+// import * as auth0 from 'auth0-js';
 // import { loginRequest, logoutRequest } from '../../actions';
 import { Action, loginUser, logoutRequest } from '../../actions';
 import { GlobalState } from '../../reducers';
+// import { AuthState } from '../../types';
 
 import {
   Nav,
@@ -22,22 +23,25 @@ import {
   Button, 
 } from 'reactstrap';
 
-// import { History } from 'history';
-
 import { connect, Dispatch } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
-interface Props {
-  // history: History;
+// interface StateProps extends AuthState {};
+interface StateProps {
+  isLoggingIn: boolean;
   idToken?: string;
-  // profile: Profile;
-  profile: auth0.Auth0UserProfile;
+  profile?: auth0.Auth0UserProfile;// maybe occured circular dependency
+  error?: string;
+};
+
+interface DispatchProps {
   actions: {
-    // handleLogin: typeof loginRequest,
     handleLogin: typeof loginUser,
     handleLogout: typeof logoutRequest,
-  };
-}
+  }
+};
+
+interface Props extends StateProps, DispatchProps {};
 
 interface State {
   isOpen: boolean;
@@ -48,7 +52,6 @@ class GlobalNavbar extends React.Component<Props, State> {
   constructor(props: Props, state: State) {
     super(props);
   
-    // this.login = this.login.bind(this);
     this.toggle = this.toggle.bind(this);
     this.state = {
       isOpen: false
@@ -63,13 +66,6 @@ class GlobalNavbar extends React.Component<Props, State> {
     } as State);
   }
 
-  /*
-  <NavLink to="/books" activeStyle={activeStyle}>
-    <Label mx={3} style={{ cursor: 'pointer' }}>
-      Books
-    </Label>
-  </NavLink>
-  */
   render() {
     // const { idToken, profile } = this.props;
     const { profile, actions } = this.props;
@@ -107,14 +103,6 @@ class GlobalNavbar extends React.Component<Props, State> {
               <Button  color="primary" onClick={actions.handleLogout} style={{ cursor: 'pointer' }}>
                 Logout
             </Button>
-              /*
-            <Button ml="auto" bg="green4" onClick={actions.handleLogin} style={{ cursor: 'pointer' }}>
-                Login
-            </Button> :
-              <Button  ml="auto" bg="red4" onClick={actions.handleLogout} style={{ cursor: 'pointer' }}>
-                Logout
-            </Button>
-            */
           }
         </Navbar>
       </div>
@@ -126,35 +114,25 @@ class GlobalNavbar extends React.Component<Props, State> {
 
 
 // const mapStateToProps = (state: TableState) => {
-const mapStateToProps = (state: GlobalState) => {
+// const mapStateToProps = (state: GlobalState) => {
+const mapStateToProps = (state: GlobalState): StateProps => {
   return {
     isLoggingIn: state.auth.isLoggingIn,
     idToken: state.auth.idToken,
     profile: state.auth.profile,
     error: state.auth.error,
-    // editor: state.table.editor
   };
 };
 
-// const mapDispatchToProps = (dispatch: Dispatch<Action>, ownProps: Props)
-const mapDispatchToProps = (dispatch: Dispatch<Action>) => {
-  return {
-    actions: bindActionCreators({
-      handleLogin: loginUser, 
-      handleLogout: logoutRequest
-    }, dispatch),
-    // onClick: (member: Member) => {
-    //   dispatch(setValueToEditor(member));
-    // },
-    // onSubmit: (member: Member) => {
-    //   ispatch(submitValueFromEditor(member));
-    // },
-    // onChange: (key: string, value: string) => {
-    //   dispatch(changeValueInEditor(key, value));
-    // }
-  };
-};
+//const mapDispatchToProps = (dispatch: Dispatch<Action>, ownProps: Props) => {
+const mapDispatchToProps = (dispatch: Dispatch<Action>, ownProps: Props): DispatchProps => ({
+  actions: bindActionCreators({
+    handleLogin: loginUser, 
+    handleLogout: logoutRequest
+  }, dispatch)
+});
 
+// export default connect<StateProps, DispatchProps, void>(
 export default connect(
   mapStateToProps,
   mapDispatchToProps 

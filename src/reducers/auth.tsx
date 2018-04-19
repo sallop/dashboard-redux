@@ -1,4 +1,4 @@
-import { Action } from '../action';
+import { Action } from '../actions';
 import { AuthState } from '../types';
 // import { AuthState, User, Credential } from '../types';
 import { getStoredAuthState } from '../utils/functions';
@@ -42,6 +42,8 @@ export function reducer(
   },
   action: Action
 ): AuthState {
+  // const { type, payload } = action;
+  const { payload } = action;
 
   switch (action.type) {
   case c.LOGIN_REQUEST:
@@ -50,28 +52,24 @@ export function reducer(
       isLoggingIn: true,
       // idToken: "",
       // profile: "",
-    }
-    break;
+    };
   case c.LOGIN_SUCCESS:
     return {
       ...state,
       isLoggingIn: false, // isFetching: false,  https://github.com/auth0-blog/redux-auth/blob/master/reducers.js
-      idToken: action.idToken,
-      profile: action.profile,
+      idToken: payload.idToken,
+      profile: payload.profile,
     };
-    break;
   case c.LOGIN_FAILURE:
     return {
       ...state,
       isLoggingIn: false,
       idToken: undefined,
       profile: undefined,
-      error: action.error
+      error: payload.error
     };
-    break;
   case c.LOGOUT_REQUEST:
     return initialState; // isFetching = true, https://github.com/auth0-blog/redux-auth/blob/master/reducers.js
-    break;
   // case c.LOGOUT_SUCCESS:
   //   return { ...state }
   //   break;
@@ -80,6 +78,5 @@ export function reducer(
   //   break;
   default:
     return { ...state }
-    break;
   }
 }
