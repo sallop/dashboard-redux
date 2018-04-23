@@ -1,4 +1,5 @@
-import { Action } from '../actions';
+// import { Action } from '../actions';
+import { LoginAction } from '../actions';
 import { AuthState } from '../types';
 // import { AuthState, User, Credential } from '../types';
 import { getStoredAuthState } from '../utils/functions';
@@ -28,22 +29,29 @@ import * as c from '../constants';
 
 export const initialState: AuthState = {
   isLoggingIn: false,
-// idToken?: string;
-// profile?: auth0.Auth0UserProfile;
-// error?: string;
+  // idToken?: string;
+  // idToken?: string;
+  // profile?: auth0.Auth0UserProfile;
+  // error?: string;
+  // auth0-blog/redux-auth/reducers.js
+  // isFetching: false,
+  // isAuthenticated: localStorage.getItem('id_token') ? true : false
 };
 
 // https://github.com/jch254/starter-pack/blob/typescript/src/auth/reducer.ts
 export function reducer(
-  // state: AuthState = initialState(),
   state: AuthState = {
     ...initialState,
     ...getStoredAuthState()
   },
-  action: Action
+  // action: Action
+  action: LoginAction
+  // auth0-blog/redux-auth/reducers.js
+  // isFetching: false,
+  // isAuthenticated: localStorage.getItem('id_token') ? true : false
+  // starter-pack/auth/reducer.ts
 ): AuthState {
-  // const { type, payload } = action;
-  const { payload } = action;
+  // const { payload } = action;
 
   switch (action.type) {
   case c.LOGIN_REQUEST:
@@ -52,13 +60,25 @@ export function reducer(
       isLoggingIn: true,
       // idToken: "",
       // profile: "",
+      // https://github.com/auth0-blog/redux-auth/blob/master/actions.js
+      // isFetching: true,
+      // isAuthenticated: false,
+      // creds
     };
   case c.LOGIN_SUCCESS:
     return {
       ...state,
       isLoggingIn: false, // isFetching: false,  https://github.com/auth0-blog/redux-auth/blob/master/reducers.js
-      idToken: payload.idToken,
-      profile: payload.profile,
+      // idToken: payload.idToken,
+      // profile: payload.profile,
+      idToken: action.payload.idToken,
+      profile: action.payload.profile,
+
+
+      // auth0-blog/redux-auth
+      // isFetching: false,
+      // isAuthenticated: true,
+      // id_token: user.id_token
     };
   case c.LOGIN_FAILURE:
     return {
@@ -66,10 +86,21 @@ export function reducer(
       isLoggingIn: false,
       idToken: undefined,
       profile: undefined,
-      error: payload.error
+      // error: payload.error
+      error: action.payload.error
+      // auth0-blog/redux-auth
+      // isFetching: false,
+      // isAuthenticated: false
+      // message
     };
   case c.LOGOUT_REQUEST:
-    return initialState; // isFetching = true, https://github.com/auth0-blog/redux-auth/blob/master/reducers.js
+    return initialState;
+    // isFetching = true, https://github.com/auth0-blog/redux-auth/blob/master/reducers.js
+    // auth0-blog/redux-auth
+    // return {
+    //   isFetching: false,
+    //   isAuthenticated: false,
+    // }
   // case c.LOGOUT_SUCCESS:
   //   return { ...state }
   //   break;

@@ -54,45 +54,105 @@ export interface FetchMembers {
   error?: boolean;
 }
 
+// export interface Auth0UserProfile {
+//     name: string;
+//     nickname: string;
+//     picture: string;
+//     user_id: string;
+//     username?: string;
+//     given_name?: string;
+//     family_name?: string;
+//     email?: string;
+//     email_verified?: boolean;
+//     clientID: string;
+//     gender?: string;
+//     locale?: string;
+//     identities: Auth0Identity[];
+//     created_at: string;
+//     updated_at: string;
+//     sub: string;
+//     user_metadata?: any;
+//     app_metadata?: any;
+// }
+
 export interface LoginRequest {
   type: c.LOGIN_REQUEST;
-  payload: {};
+  payload: {
+    // auth0-blog/redux-auth/reducers.js
+    // isFetching: boolean;
+    // isAuthenticated: boolean;
+    // isLoggingIn: boolean;
+    // idToken?: string; // profile.user_id;
+    // profile?: auth0.Auth0UserProfile;
+  };
   error?: boolean;
 }
 
 export interface LoginSuccess {
   type: c.LOGIN_SUCCESS;
-  payload: {};
+  payload: {
+    // isFetching: boolean;
+    // isAuthenticated: boolean;
+    // isLoggingIn: boolean;
+    idToken?: string;// profile.user_id,
+    profile?: auth0.Auth0UserProfile;
+  };
   error?: boolean;
 }
 
 export interface LoginFailure {
   type: c.LOGIN_FAILURE;
-  payload: {};
+  payload: {
+    // isFetching: boolean;
+    // isAuthenticated: boolean;
+    // isLoggingIn: boolean;
+    // idToken?: string;// profile.user_id,
+    // profile?: auth0.Auth0UserProfile;
+    // error: string;
+    error?: string;
+  };
   error?: boolean;
 }
 
 export interface LogoutRequest {
   type: c.LOGOUT_REQUEST;
-  payload: {};
+  payload: {
+    // isFetching: boolean;
+    // isAuthenticated: boolean;
+    // isLoggingIn: boolean;
+    // idToken?: string;// profile.user_id,
+    // profile?: auth0.Auth0UserProfile;
+  };
   error?: boolean;
 }
 
 export interface LogoutSuccess {
   type: c.LOGOUT_SUCCESS;
-  payload: {};
-  error?: boolean;
+  payload: {
+    // isFetching: boolean;
+    // isAuthenticated: boolean;
+    // isLoggingIn: boolean;
+    // idToken?: string;// profile.user_id,
+    // profile?: auth0.Auth0UserProfile;
+  };
+  // error?: boolean;
 }
 
 export interface LogoutFailure {
   type: c.LOGOUT_FAILURE;
-  payload: {};
+  payload: {
+    // isFetching: boolean;
+    // isAuthenticated: boolean;
+    isLoggingIn: boolean;
+    idToken?: string;// profile.user_id,
+    profile?: auth0.Auth0UserProfile;
+  };
   error?: boolean;
 }
 
 type CounterAction = PushIncrement | PushDecrement;
 type TableAction = SetValueToEditor | SetValueToTable | ChangeValueInEditor | SubmitValueFromEditor | FetchMembers;
-type LoginAction = LoginRequest | LoginSuccess | LoginFailure;
+export type LoginAction = LoginRequest | LoginSuccess | LoginFailure;
 type LogoutAction = LogoutRequest | LogoutSuccess | LogoutFailure;
 
 export type Action = CounterAction | TableAction | LoginAction | LogoutAction;
@@ -184,42 +244,6 @@ export function fetchMembers(): ThunkAction<Promise<void>, Action, null> {
   };
 }
 
-export interface LoginRequest {
-  type: c.LOGIN_REQUEST;
-  payload: {};
-  error?: boolean;
-}
-
-export interface LoginSuccess {
-  type: c.LOGIN_SUCCESS;
-  payload: {};
-  error?: boolean;
-}
-
-export interface LoginFailure {
-  type: c.LOGIN_FAILURE;
-  payload: {};
-  error?: boolean;
-}
-
-export interface LogoutRequest {
-  type: c.LOGOUT_REQUEST;
-  payload: {};
-  error?: boolean;
-}
-
-export interface LogoutSuccess {
-  type: c.LOGOUT_SUCCESS;
-  payload: {};
-  error?: boolean;
-}
-
-export interface LogoutFailure {
-  type: c.LOGOUT_FAILURE;
-  payload: {};
-  error?: boolean;
-}
-
 // https://github.com/auth0-blog/redux-auth
 // https://github.com/auth0-blog/redux-auth/blob/master/components/Login.js
 // const username = this.refs.username
@@ -254,6 +278,7 @@ export function loginUser(): ThunkAction<Promise<void>, Action, null> {
     const showLock = () => new Promise<ShowLock>((resolve, reject) => {
       lock.on('hide', () => reject('Lock closed'));
       lock.on('authenticated', (authResult: auth0.Auth0DecodedHash) => {
+        console.log('showlock authenticated');
         lock.getUserInfo(
           authResult.accessToken as string,
           (error: auth0.Auth0Error, profile: auth0.Auth0UserProfile) => {
@@ -275,18 +300,20 @@ export function loginUser(): ThunkAction<Promise<void>, Action, null> {
     try {
       // const { profile, idToken }: ShowLock = yield call(showLock);
       showLock().then((args: ShowLock) => {
-        // const { profile, idToken }: ShowLock = args;
-        const { profile }: ShowLock = args;
+        const { profile, idToken }: ShowLock = args;
+        // const { profile }: ShowLock = args;
+
+        console.log('showLock().then((args: ShowLock) => {}');
 
         // dispatch(loginSuccess(user));
-        // dispatch(loginSuccess(profile, idToken));
-        dispatch(loginSuccess(profile));
+        dispatch(loginSuccess(profile, idToken));
+        // dispatch(loginSuccess(profile));
 
       }, (error: auth0.Auth0Error) => {
 
         console.log(`error description: ${error.errorDescription}`);
 
-        dispatch(loginFailure(error.errorDescription));
+        dispatch(loginFailure(error.errorDescription)); // string|undefined
       });
     } catch(error) {
 
@@ -299,15 +326,13 @@ export function loginRequest(creds: Credential): Action {
   return {
     type: c.LOGIN_REQUEST,
     payload: {
-      isFetching: true,
-      isAuthenticated: false,
-      creds
+      // auth0-blog/redux-auth
+      // isFetching: true,
+      // isAuthenticated: false,
+      // creds
     }
   };
 }
-// export const loginRequest = (): LoginRequest => ({
-//     type: LOGIN_REQUEST,
-// });
 
 // https://github.com/auth0-blog/redux-auth
 // https://github.com/auth0-blog/nodejs-jwt-authentication-sample
@@ -334,14 +359,18 @@ export function loginRequest(creds: Credential): Action {
 // }
 
 // export function loginSuccess(user: User): Action {
-export function loginSuccess(profile: auth0.Auth0UserProfile): Action {
+export function loginSuccess(
+  profile: auth0.Auth0UserProfile,
+  idToken: string
+): Action {
   console.log(`${JSON.stringify(profile)}`);
   return {
     type: c.LOGIN_SUCCESS,
     payload: {
-      isFetching: false,
-      isAuthenticated: true,
-      id_token: profile.user_id,
+      // isFetching: false,
+      // isAuthenticated: true,
+      idToken: profile.user_id,
+      profile,
     }
   };
 }
@@ -353,14 +382,12 @@ export function loginSuccess(profile: auth0.Auth0UserProfile): Action {
 // });
 
 // export function loginFailure(message: string): Action {
+// export function loginFailure(message: string): Action {
 export function loginFailure(message: string|undefined): Action {
   return {
     type: c.LOGIN_FAILURE,
-    payload: {
-      isFetching: false,
-      isAuthenticated: false,
-      message,
-    }
+    payload: { error: message },
+    error: true
   };
 }
 
@@ -373,28 +400,33 @@ export function logoutRequest(): Action {
   return {
     type: c.LOGOUT_REQUEST,
     payload: {
-      isFetching: true,
-      isAuthenticated: true,
+      // isFetching: true,
+      // isAuthenticated: true,
     }
   };
 }
 
+// logout(): Action
 export function logoutSuccess(): Action {
   return {
     type: c.LOGOUT_SUCCESS,
     payload: {
-      isFetching: false,
-      isAuthenticated: false,
+      // isFetching: false,
+      // isAuthenticated: false,
     }
   };
 }
 
-export function logoutFailure(): Action {
-  return {
-    type: c.LOGOUT_FAILURE,
-    payload: {},
-  };
-}
+// export function logoutFailure(): Action {
+//   return {
+//     type: c.LOGOUT_FAILURE,
+//     payload: {
+//       isFetching: false,
+//       isAuthenticated: false,
+//       message
+//     }
+//   };
+// }
 
 // https://github.com/auth0-blog/redux-auth/blob/master/actions.js
 // Calls the API to get a token and dispatches action along the way

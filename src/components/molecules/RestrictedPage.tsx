@@ -9,7 +9,9 @@ export interface RestrictedPageProps {
 };
 
 export interface StateProps {
-  idToken?: string;
+  idToken?: string; // starter-pack
+  // profile;
+  // isLoggingIn;
 };
 
 export interface DispatchProps {
