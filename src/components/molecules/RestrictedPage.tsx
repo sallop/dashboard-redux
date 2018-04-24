@@ -6,25 +6,25 @@ import FullscreenLoader from './FullscreenLoader';
 
 export interface RestrictedPageProps {
   children?: React.ReactNode[];
-};
+}
 
 export interface StateProps {
   idToken?: string; // starter-pack
   // profile;
   // isLoggingIn;
-};
+}
 
 export interface DispatchProps {
   actions: {
     // loginRequest: typeof loginRequest;
     loginUser: typeof loginUser;
-  }
-};
+  };
+}
 
 // interface Props extends RestrictedPageProps, StateProps, DispatchProps;
-interface Props extends RestrictedPageProps, StateProps, DispatchProps {};
+interface Props extends RestrictedPageProps, StateProps, DispatchProps {}
 
-interface State {};
+interface State {}
 // interface State {
 //   // idToken?: string;
 // };

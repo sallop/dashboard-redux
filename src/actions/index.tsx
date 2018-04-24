@@ -94,7 +94,7 @@ export interface LoginSuccess {
     // isFetching: boolean;
     // isAuthenticated: boolean;
     // isLoggingIn: boolean;
-    idToken?: string;// profile.user_id,
+    idToken?: string; // profile.user_id,
     profile?: auth0.Auth0UserProfile;
   };
   error?: boolean;
@@ -144,7 +144,7 @@ export interface LogoutFailure {
     // isFetching: boolean;
     // isAuthenticated: boolean;
     isLoggingIn: boolean;
-    idToken?: string;// profile.user_id,
+    idToken?: string; // profile.user_id,
     profile?: auth0.Auth0UserProfile;
   };
   error?: boolean;
@@ -258,8 +258,8 @@ interface ShowLock {
 export function loginUser(): ThunkAction<Promise<void>, Action, null> {
   return async function(dispatch: Dispatch<Action>): Promise<void> {
     const creds: Credential = {
-      username: "username",
-      password: "password",
+      username: 'username',
+      password: 'password',
     };
     dispatch(loginRequest(creds));
     // https://github.com/jch254/starter-pack/blob/typescript/src/auth/sagas.ts
@@ -299,27 +299,30 @@ export function loginUser(): ThunkAction<Promise<void>, Action, null> {
 
     try {
       // const { profile, idToken }: ShowLock = yield call(showLock);
-      showLock().then((args: ShowLock) => {
-        const { profile, idToken }: ShowLock = args;
-        // const { profile }: ShowLock = args;
+      showLock().then(
+        (args: ShowLock) => {
+          const { profile, idToken }: ShowLock = args;
+          // const { profile }: ShowLock = args;
 
-        console.log('showLock().then((args: ShowLock) => {}');
+          console.log('showLock().then((args: ShowLock) => {}');
 
-        // dispatch(loginSuccess(user));
-        dispatch(loginSuccess(profile, idToken));
-        // dispatch(loginSuccess(profile));
+          // dispatch(loginSuccess(user));
+          dispatch(loginSuccess(profile, idToken));
+          // dispatch(loginSuccess(profile));
 
-      }, (error: auth0.Auth0Error) => {
+        },
+        (error: auth0.Auth0Error) => {
 
-        console.log(`error description: ${error.errorDescription}`);
+          console.log(`error description: ${error.errorDescription}`);
 
-        dispatch(loginFailure(error.errorDescription)); // string|undefined
-      });
-    } catch(error) {
+          dispatch(loginFailure(error.errorDescription)); // string|undefined
+        }
+      );
+    } catch (error) {
 
       console.log(`error closure: ${JSON.stringify(error)}`);
     }
-  }
+  };
 }
 
 export function loginRequest(creds: Credential): Action {

@@ -30,18 +30,18 @@ import { bindActionCreators } from 'redux';
 interface StateProps {
   isLoggingIn: boolean;
   idToken?: string;
-  profile?: auth0.Auth0UserProfile;// maybe occured circular dependency
+  profile?: auth0.Auth0UserProfile; // maybe occured circular dependency
   error?: string;
-};
+}
 
 interface DispatchProps {
   actions: {
     handleLogin: typeof loginUser,
     handleLogout: typeof logoutRequest,
-  }
-};
+  };
+}
 
-interface Props extends StateProps, DispatchProps {};
+interface Props extends StateProps, DispatchProps {}
 
 interface State {
   isOpen: boolean;
@@ -111,8 +111,6 @@ class GlobalNavbar extends React.Component<Props, State> {
 }
 
 // export default GlobalNavbar;
-
-
 // const mapStateToProps = (state: TableState) => {
 // const mapStateToProps = (state: GlobalState) => {
 const mapStateToProps = (state: GlobalState): StateProps => {
@@ -124,12 +122,14 @@ const mapStateToProps = (state: GlobalState): StateProps => {
   };
 };
 
-//const mapDispatchToProps = (dispatch: Dispatch<Action>, ownProps: Props) => {
+// const mapDispatchToProps = (dispatch: Dispatch<Action>, ownProps: Props) => {
 const mapDispatchToProps = (dispatch: Dispatch<Action>, ownProps: Props): DispatchProps => ({
-  actions: bindActionCreators({
-    handleLogin: loginUser, 
-    handleLogout: logoutRequest
-  }, dispatch)
+  actions: bindActionCreators(
+    {
+      handleLogin: loginUser, 
+      handleLogout: logoutRequest
+    },
+    dispatch)
 });
 
 // export default connect<StateProps, DispatchProps, void>(

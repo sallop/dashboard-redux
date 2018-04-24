@@ -1,4 +1,7 @@
-import { AuthState } from '../Auth/Auth.tsx';
+// import { AuthState } from '../Auth/Auth';
+import { AuthState } from '../types';
+import * as auth0 from 'auth0-js';
+// https://github.com/jch254/starter-pack/blob/typescript/src/utils.ts
 
 const AUTH = 'AUTH';
 
@@ -6,7 +9,7 @@ export const setStoredAuthState = (
   profile?: auth0.Auth0UserProfile,
   idToken?: string
 ): void => {
-  const localStorage = {
+  const localStorageState = {
     profile,
     idToken,
   };

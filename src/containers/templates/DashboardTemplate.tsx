@@ -19,11 +19,13 @@ class DashboardTemplate extends React.Component<Props, State> {
       <div>
         {/*
         <GlobalNavbar />
-        Type '{}' is not assignable to type 'IntrinsicAttributes & IntrinsicClassAttributes<Component<Pick<Props, never> & Props, ComponentSta...'.
+        Type '{}' is not assignable to type 'IntrinsicAttributes &
+        IntrinsicClassAttributes<Component<Pick<Props, never> & Props, ComponentSta...'.
         */}
         {/*
         <GlobalNavbar isLoggingIn={true} />
-        Type '{ isLoggingIn: true; }' is not assignable to type 'IntrinsicAttributes & IntrinsicClassAttributes<Component<Pick<Props, never> & Props, ComponentSta...'.
+        Type '{ isLoggingIn: true; }' is not assignable to type 'IntrinsicAttributes &
+        IntrinsicClassAttributes<Component<Pick<Props, never> & Props, ComponentSta...'.
         */}
         <div className="wrapper">
           {/* sidebar */}

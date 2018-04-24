@@ -1,5 +1,4 @@
-// import { Action } from '../actions';
-import { LoginAction } from '../actions';
+import { Action } from '../actions';
 import { AuthState } from '../types';
 // import { AuthState, User, Credential } from '../types';
 import { getStoredAuthState } from '../utils/functions';
@@ -44,8 +43,8 @@ export function reducer(
     ...initialState,
     ...getStoredAuthState()
   },
-  // action: Action
-  action: LoginAction
+  action: Action
+  // action: LoginAction
   // auth0-blog/redux-auth/reducers.js
   // isFetching: false,
   // isAuthenticated: localStorage.getItem('id_token') ? true : false
@@ -73,7 +72,6 @@ export function reducer(
       // profile: payload.profile,
       idToken: action.payload.idToken,
       profile: action.payload.profile,
-
 
       // auth0-blog/redux-auth
       // isFetching: false,
@@ -108,6 +106,6 @@ export function reducer(
   //   return { ...state }
   //   break;
   default:
-    return { ...state }
+    return { ...state };
   }
 }

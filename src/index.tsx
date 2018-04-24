@@ -23,10 +23,11 @@ ReactDOM.render(
   <Provider store={store}>
     {/*
     <App />
-      Type '{}' is not assignable to type 'IntrinsicAttributes & AppProps & StateProps & DispatchProps & { children?: ReactNode; }'
-
+      Type '{}' is not assignable to type 'IntrinsicAttributes & AppProps & StateProps 
+      & DispatchProps & { children?: ReactNode; }'
     <App history={null} actions={null}/>
-      Type '{ history: null; actions: null; }' is not assignable to type 'IntrinsicAttributes & AppProps & StateProps & DispatchProps & { children?: ReactNode; }'.
+      Type '{ history: null; actions: null; }' is not assignable to type 'IntrinsicAttributes &
+      AppProps & StateProps & DispatchProps & { children?: ReactNode; }'.
     */}
     <App history={history} />
   </Provider>,

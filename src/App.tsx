@@ -1,7 +1,7 @@
 import * as React from 'react';
 import * as auth0 from 'auth0-js';
 // import { loginRequest, logoutRequest } from './actions';
- import { loginUser, logoutRequest } from './actions';
+import { loginUser, logoutRequest } from './actions';
 
 import './App.css';
 import Router from './Router';
@@ -67,10 +67,12 @@ const mapStateToProps = (state: GlobalState): StateProps => {
 
 const mapStateToDispatch = (dispatch: Dispatch<Action>): DispatchProps => {
   return {
-    actions: bindActionCreators({
-      loginRequest: loginUser,
-      logoutRequest: logoutRequest,
-    }, dispatch)
+    actions: bindActionCreators(
+      {
+        loginRequest: loginUser,
+        logoutRequest: logoutRequest,
+      },
+      dispatch)
   };
 };
 
