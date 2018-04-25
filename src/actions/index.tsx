@@ -7,6 +7,7 @@ import { ThunkAction } from 'redux-thunk';
 // import 'whatwg-fetch';
 import * as auth0 from 'auth0-js';
 import Auth0Lock from 'auth0-lock';
+import { AUTH_CONFIG } from '../Auth/auth0-variables';
 
 export interface PushIncrement {
   type: c.PUSH_INCREMENT;
@@ -264,16 +265,18 @@ export function loginUser(): ThunkAction<Promise<void>, Action, null> {
     dispatch(loginRequest(creds));
     // https://github.com/jch254/starter-pack/blob/typescript/src/auth/sagas.ts
     const lock = new Auth0Lock(
-      process.env.AUTH0_CLIENT_ID as string,
-      process.env.AUTH0_DOMAIN as string,
+      // process.env.AUTH0_CLIENT_ID as string,
+      // process.env.AUTH0_DOMAIN as string,
+      AUTH_CONFIG.clientId,
+      AUTH_CONFIG.domain,
       {
         auth: { redirect: false },
         languageDictionary: { title: 'Starter Pack' },
       },
     );
 
-    console.log(`cid = ${process.env.AUTH0_CLIENT_ID}`);
-    console.log(`domain = ${process.env.AUTH0_DOMAIN}`);
+    console.log(`cid    = ${AUTH_CONFIG.clientId}`);
+    console.log(`domain = ${AUTH_CONFIG.domain}`);
 
     const showLock = () => new Promise<ShowLock>((resolve, reject) => {
       lock.on('hide', () => reject('Lock closed'));
