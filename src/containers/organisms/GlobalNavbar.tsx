@@ -29,6 +29,10 @@ import { bindActionCreators } from 'redux';
 // interface StateProps extends AuthState {};
 interface StateProps {
   isLoggingIn: boolean;
+  // idToken: string;
+  // profile: auth0.Auth0UserProfile; // maybe occured circular dependency
+  // error: string;
+
   idToken?: string;
   profile?: auth0.Auth0UserProfile; // maybe occured circular dependency
   error?: string;
@@ -122,8 +126,10 @@ const mapStateToProps = (state: GlobalState): StateProps => {
   };
 };
 
-// const mapDispatchToProps = (dispatch: Dispatch<Action>, ownProps: Props) => {
-const mapDispatchToProps = (dispatch: Dispatch<Action>, ownProps: Props): DispatchProps => ({
+// const mapDispatchToProps = (dispatch: Dispatch<Action>, ownProps: Props) => ({ // error
+// const mapDispatchToProps = (dispatch: Dispatch<Action>, ownProps: Props): DispatchProps => ({ // error
+// const mapDispatchToProps = (dispatch: Dispatch<Action>) => ({
+const mapDispatchToProps = (dispatch: Dispatch<Action>): DispatchProps => ({
   actions: bindActionCreators(
     {
       handleLogin: loginUser, 
