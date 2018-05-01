@@ -270,7 +270,14 @@ export function loginUser(): ThunkAction<Promise<void>, Action, null> {
       AUTH_CONFIG.clientId,
       AUTH_CONFIG.domain,
       {
-        auth: { redirect: false },
+        // auth: { redirect: false },
+        auth: {
+          redirect: false,
+          // https://auth0.com/docs/libraries/lock/v11/sending-authentication-parameters
+          params: {
+            scope: 'openid profile email'
+          }
+        },
         languageDictionary: { title: 'Starter Pack' },
       },
     );
@@ -285,14 +292,19 @@ export function loginUser(): ThunkAction<Promise<void>, Action, null> {
         lock.getUserInfo(
           authResult.accessToken as string,
           (error: auth0.Auth0Error, profile: auth0.Auth0UserProfile) => {
+            console.log('within lock.getUserInfo()');
+            console.log(`error: ${JSON.stringify(error)}`);
+            console.log(`profile: ${JSON.stringify(profile)}`);
             if (!error) {
               lock.hide();
+              console.log(`idToken: ${authResult.idToken}`);
               resolve({ profile, idToken: authResult.idToken as string });
             }
           },
         );
       });
       lock.on('unrecoverable_error', (error) => {
+        console.log('unrecoverable_error');
         lock.hide();
         reject(error);
       });
