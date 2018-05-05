@@ -1,6 +1,8 @@
 import * as React from 'react';
 import GlobalNavbar from '../organisms/GlobalNavbar';
 import Sidebar from '../organisms/Sidebar';
+// import { RestrictedPage } from '../../components/molecules/RestrictedPage';
+import RestrictedPage from '../../containers/organisms/RestrictedPage';
 
 interface Props {
   children?: React.ReactNode;
@@ -33,7 +35,9 @@ class DashboardTemplate extends React.Component<Props, State> {
           <Sidebar />
           {/* sidebar */}
           <div id="content">
-            {this.props.children}
+            <RestrictedPage>
+              {this.props.children}
+            </RestrictedPage>
           </div>
         </div>
       </div>
