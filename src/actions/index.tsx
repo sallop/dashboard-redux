@@ -273,9 +273,17 @@ export function loginUser(): ThunkAction<Promise<void>, Action, null> {
         // auth: { redirect: false },
         auth: {
           redirect: false,
+          // https://auth0.com/docs/tokens/id-token
+          responseType: 'id_token token',
+          // responseType: 'id_token', // Error: accessToken parameter is not valid
+          // redirect: true,
           // https://auth0.com/docs/libraries/lock/v11/sending-authentication-parameters
           params: {
             scope: 'openid profile email'
+            // scope: 'openid profile email offline_access',
+            // issues/859 hzalaz
+            // responseType: 'id_token token',
+            // access_type: 'offline',
           }
         },
         languageDictionary: { title: 'Starter Pack' },
@@ -298,6 +306,7 @@ export function loginUser(): ThunkAction<Promise<void>, Action, null> {
             if (!error) {
               lock.hide();
               console.log(`idToken: ${authResult.idToken}`);
+              console.log(`authResult: ${JSON.stringify(authResult)}`);
               resolve({ profile, idToken: authResult.idToken as string });
             }
           },
@@ -316,10 +325,13 @@ export function loginUser(): ThunkAction<Promise<void>, Action, null> {
       // const { profile, idToken }: ShowLock = yield call(showLock);
       showLock().then(
         (args: ShowLock) => {
-          const { profile, idToken }: ShowLock = args;
+          const { profile, idToken }: ShowLock = args; // error occuredd
           // const { profile }: ShowLock = args;
 
           console.log('showLock().then((args: ShowLock) => {}');
+          console.log(`idToken = ${idToken}`);
+          console.log(`args = ${JSON.stringify(args)}`);
+          console.log(`args.idToken = ${JSON.stringify(args.idToken)}`);
 
           // dispatch(loginSuccess(user));
           dispatch(loginSuccess(profile, idToken));
@@ -381,13 +393,16 @@ export function loginSuccess(
   profile: auth0.Auth0UserProfile,
   idToken: string
 ): Action {
+  console.log(`loginSuccess`);
   console.log(`${JSON.stringify(profile)}`);
+  console.log(`idToken ${idToken}`);
   return {
     type: c.LOGIN_SUCCESS,
     payload: {
       // isFetching: false,
       // isAuthenticated: true,
-      idToken: profile.user_id,
+      // idToken: profile.user_id, // what the fuck
+      idToken,
       profile,
     }
   };

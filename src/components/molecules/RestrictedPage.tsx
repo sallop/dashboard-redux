@@ -54,7 +54,7 @@ export class RestrictedPage extends React.Component<Props, State> {
 
   render() {
     const { children, idToken } = this.props;
-    console.log(`RestrictedPage.componentWillMount idToken = ${idToken}`);
+    console.log(`RestrictedPage.render idToken = ${idToken}`);
     return idToken ? children : <FullscreenLoader delay={0}/>;
   }
 }
