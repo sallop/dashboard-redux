@@ -30,16 +30,6 @@ interface DispatchProps {
   };
 }
 
-// class App extends React.Component {
-//   render() {
-//     return (
-//       <div>
-//         <Router/>
-//       </div>
-//     );
-//   }
-// }
-
 // https://github.com/jch254/starter-pack/blob/typescript/src/app/App.tsx
 // {
 //  history: History,

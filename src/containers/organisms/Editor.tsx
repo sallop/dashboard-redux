@@ -26,7 +26,6 @@ const mapDispatchToProps = (dispatch: Dispatch<Action>) => {
     },
     onSubmit: (member: Member) => {
       dispatch(submitValueFromEditor(member));
-      // dispatch(submitValueFromEditor(member));
     },
     onChange: (key: string, value: string) => {
       dispatch(changeValueInEditor(key, value));

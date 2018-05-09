@@ -3,6 +3,7 @@ import history from '../history';
 import * as auth0 from 'auth0-js';
 import { AUTH_CONFIG } from './auth0-variables';
 
+// https://github.com/auth0-samples/auth0-react-samples/tree/master/01-Login
 export default class Auth {
 
   auth0: auth0.WebAuth = new auth0.WebAuth({

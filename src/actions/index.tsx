@@ -78,23 +78,13 @@ export interface FetchMembers {
 
 export interface LoginRequest {
   type: c.LOGIN_REQUEST;
-  payload: {
-    // auth0-blog/redux-auth/reducers.js
-    // isFetching: boolean;
-    // isAuthenticated: boolean;
-    // isLoggingIn: boolean;
-    // idToken?: string; // profile.user_id;
-    // profile?: auth0.Auth0UserProfile;
-  };
+  payload: {};
   error?: boolean;
 }
 
 export interface LoginSuccess {
   type: c.LOGIN_SUCCESS;
   payload: {
-    // isFetching: boolean;
-    // isAuthenticated: boolean;
-    // isLoggingIn: boolean;
     idToken?: string; // profile.user_id,
     profile?: auth0.Auth0UserProfile;
   };
@@ -104,12 +94,6 @@ export interface LoginSuccess {
 export interface LoginFailure {
   type: c.LOGIN_FAILURE;
   payload: {
-    // isFetching: boolean;
-    // isAuthenticated: boolean;
-    // isLoggingIn: boolean;
-    // idToken?: string;// profile.user_id,
-    // profile?: auth0.Auth0UserProfile;
-    // error: string;
     error?: string;
   };
   error?: boolean;
@@ -117,33 +101,19 @@ export interface LoginFailure {
 
 export interface LogoutRequest {
   type: c.LOGOUT_REQUEST;
-  payload: {
-    // isFetching: boolean;
-    // isAuthenticated: boolean;
-    // isLoggingIn: boolean;
-    // idToken?: string;// profile.user_id,
-    // profile?: auth0.Auth0UserProfile;
-  };
+  payload: {};
   error?: boolean;
 }
 
 export interface LogoutSuccess {
   type: c.LOGOUT_SUCCESS;
-  payload: {
-    // isFetching: boolean;
-    // isAuthenticated: boolean;
-    // isLoggingIn: boolean;
-    // idToken?: string;// profile.user_id,
-    // profile?: auth0.Auth0UserProfile;
-  };
+  payload: {};
   // error?: boolean;
 }
 
 export interface LogoutFailure {
   type: c.LOGOUT_FAILURE;
   payload: {
-    // isFetching: boolean;
-    // isAuthenticated: boolean;
     isLoggingIn: boolean;
     idToken?: string; // profile.user_id,
     profile?: auth0.Auth0UserProfile;
@@ -280,40 +250,26 @@ export function loginUser(): ThunkAction<Promise<void>, Action, null> {
           // https://auth0.com/docs/libraries/lock/v11/sending-authentication-parameters
           params: {
             scope: 'openid profile email'
-            // scope: 'openid profile email offline_access',
-            // issues/859 hzalaz
-            // responseType: 'id_token token',
-            // access_type: 'offline',
           }
         },
         languageDictionary: { title: 'Starter Pack' },
       },
     );
 
-    console.log(`cid    = ${AUTH_CONFIG.clientId}`);
-    console.log(`domain = ${AUTH_CONFIG.domain}`);
-
     const showLock = () => new Promise<ShowLock>((resolve, reject) => {
       lock.on('hide', () => reject('Lock closed'));
       lock.on('authenticated', (authResult: auth0.Auth0DecodedHash) => {
-        console.log('showlock authenticated');
         lock.getUserInfo(
           authResult.accessToken as string,
           (error: auth0.Auth0Error, profile: auth0.Auth0UserProfile) => {
-            console.log('within lock.getUserInfo()');
-            console.log(`error: ${JSON.stringify(error)}`);
-            console.log(`profile: ${JSON.stringify(profile)}`);
             if (!error) {
               lock.hide();
-              console.log(`idToken: ${authResult.idToken}`);
-              console.log(`authResult: ${JSON.stringify(authResult)}`);
               resolve({ profile, idToken: authResult.idToken as string });
             }
           },
         );
       });
       lock.on('unrecoverable_error', (error) => {
-        console.log('unrecoverable_error');
         lock.hide();
         reject(error);
       });
@@ -325,29 +281,15 @@ export function loginUser(): ThunkAction<Promise<void>, Action, null> {
       // const { profile, idToken }: ShowLock = yield call(showLock);
       showLock().then(
         (args: ShowLock) => {
-          const { profile, idToken }: ShowLock = args; // error occuredd
-          // const { profile }: ShowLock = args;
-
-          console.log('showLock().then((args: ShowLock) => {}');
-          console.log(`idToken = ${idToken}`);
-          console.log(`args = ${JSON.stringify(args)}`);
-          console.log(`args.idToken = ${JSON.stringify(args.idToken)}`);
-
-          // dispatch(loginSuccess(user));
+          const { profile, idToken }: ShowLock = args;
           dispatch(loginSuccess(profile, idToken));
-          // dispatch(loginSuccess(profile));
-
         },
         (error: auth0.Auth0Error) => {
-
-          console.log(`error description: ${error.errorDescription}`);
-
           dispatch(loginFailure(error.errorDescription)); // string|undefined
         }
       );
     } catch (error) {
-
-      console.log(`error closure: ${JSON.stringify(error)}`);
+      dispatch(loginFailure(error.errorDescription)); // temporary code for blank block
     }
   };
 }
@@ -355,12 +297,7 @@ export function loginUser(): ThunkAction<Promise<void>, Action, null> {
 export function loginRequest(creds: Credential): Action {
   return {
     type: c.LOGIN_REQUEST,
-    payload: {
-      // auth0-blog/redux-auth
-      // isFetching: true,
-      // isAuthenticated: false,
-      // creds
-    }
+    payload: {}
   };
 }
 
@@ -393,29 +330,15 @@ export function loginSuccess(
   profile: auth0.Auth0UserProfile,
   idToken: string
 ): Action {
-  console.log(`loginSuccess`);
-  console.log(`${JSON.stringify(profile)}`);
-  console.log(`idToken ${idToken}`);
   return {
     type: c.LOGIN_SUCCESS,
     payload: {
-      // isFetching: false,
-      // isAuthenticated: true,
-      // idToken: profile.user_id, // what the fuck
       idToken,
       profile,
     }
   };
 }
 
-// export const loginSuccess = (profile: auth0.Auth0UserProfile, idToken: string): LoginSuccess => ({
-//   type: LOGIN_SUCCESS,
-//   profile,
-//   idToken,
-// });
-
-// export function loginFailure(message: string): Action {
-// export function loginFailure(message: string): Action {
 export function loginFailure(message: string|undefined): Action {
   return {
     type: c.LOGIN_FAILURE,
@@ -424,18 +347,10 @@ export function loginFailure(message: string|undefined): Action {
   };
 }
 
-// export const loginFailure = (error: string): LoginFailure => ({
-//   type: LOGIN_FAILURE,
-//   error,
-// });
-
 export function logoutRequest(): Action {
   return {
     type: c.LOGOUT_REQUEST,
-    payload: {
-      // isFetching: true,
-      // isAuthenticated: true,
-    }
+    payload: {}
   };
 }
 
@@ -443,23 +358,9 @@ export function logoutRequest(): Action {
 export function logoutSuccess(): Action {
   return {
     type: c.LOGOUT_SUCCESS,
-    payload: {
-      // isFetching: false,
-      // isAuthenticated: false,
-    }
+    payload: {}
   };
 }
-
-// export function logoutFailure(): Action {
-//   return {
-//     type: c.LOGOUT_FAILURE,
-//     payload: {
-//       isFetching: false,
-//       isAuthenticated: false,
-//       message
-//     }
-//   };
-// }
 
 // https://github.com/auth0-blog/redux-auth/blob/master/actions.js
 // Calls the API to get a token and dispatches action along the way

@@ -41,7 +41,6 @@ export class RestrictedPage extends React.Component<Props, State> {
 
   componentWillMount() {
     const { actions, idToken } = this.props;
-    console.log(`RestrictedPage.componentWillMount idToken = ${idToken}`);
     if (!idToken) {
       actions.loginUser(); // loginUser() will be refactored
       // TODO:
@@ -54,7 +53,6 @@ export class RestrictedPage extends React.Component<Props, State> {
 
   render() {
     const { children, idToken } = this.props;
-    console.log(`RestrictedPage.render idToken = ${idToken}`);
     return idToken ? children : <FullscreenLoader delay={0}/>;
   }
 }
